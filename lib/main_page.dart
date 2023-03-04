@@ -14,6 +14,10 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   var selectedIndex = 0;
 
+  // store the user's question
+  final _textController = TextEditingController();
+  String userPost = '';
+
   @override
   Widget build(BuildContext context) {
     return Column(children: [
@@ -23,17 +27,26 @@ class _MainPageState extends State<MainPage> {
       Text('Exemples de questions...', style: titleText2),
       const SizedBox(height: 100),
       const Flexible(child: QuestionGrid()),
-      const Center(
+      Center(
           child: Padding(
-        padding: EdgeInsets.only(bottom: 75, right: 75),
+        padding: const EdgeInsets.only(bottom: 75, right: 75),
         child: TextField(
-          style: TextStyle(color: Colors.black, fontSize: 30),
+          controller: _textController,
+          style: const TextStyle(color: Colors.black, fontSize: 30),
           decoration: InputDecoration(
-            border: OutlineInputBorder(),
-            labelText: 'Posez votre question ici...',
-          ),
+              border: const OutlineInputBorder(),
+              labelText: 'Posez votre question ici...',
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      userPost = _textController.text;
+                      _textController.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.send))),
         ),
       )),
+      Text(userPost, style: titleText2),
     ]);
   }
 }
@@ -64,26 +77,26 @@ class QuestionGrid extends StatelessWidget {
             Center(
               child: IconButton(
                 onPressed: onPressed,
-                icon: Icon(Icons.favorite),
+                icon: const Icon(Icons.favorite),
               ),
             ),
             Center(
               child: IconButton(
                 onPressed: onPressed,
-                icon: Icon(Icons.home),
+                icon: const Icon(Icons.home),
               ),
             ),
             Center(
               child: IconButton(
                 onPressed: onPressed,
-                icon: Icon(Icons.work),
+                icon: const Icon(Icons.work),
               ),
             ),
           ],
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(left: 350, right: 350),
+            padding: const EdgeInsets.only(left: 150, right: 150),
             child: GridView.count(
               primary: false,
               crossAxisSpacing: 75,
