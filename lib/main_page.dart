@@ -26,16 +26,17 @@ class _MainPageState extends State<MainPage> {
     return Column(children: [
       const SizedBox(height: 100),
       Text('Chat ChuisPT', style: titleText),
-      const SizedBox(height: 50),
+      const SizedBox(height: 5),
       Text('Exemples de questions...', style: titleText2),
-      const SizedBox(height: 100),
-      const Flexible(child: QuestionGrid()),
+      const SizedBox(height: 5),
+      Flexible(child: QuestionGrid()),
       Center(
           child: Padding(
         padding: const EdgeInsets.only(bottom: 75, right: 75),
         child: TextField(
+          textAlign: TextAlign.center,
           controller: _textController,
-          style: const TextStyle(color: Colors.black, fontSize: 30),
+          style: normalText,
           decoration: InputDecoration(
               border: const OutlineInputBorder(),
               labelText: 'Posez votre question ici...',
@@ -53,20 +54,33 @@ class _MainPageState extends State<MainPage> {
 }
 
 class QuestionGrid extends StatelessWidget {
-  const QuestionGrid({Key? key}) : super(key: key);
+  QuestionGrid({Key? key}) : super(key: key);
+
+  List<String> exemples = [
+    "Qu'est-ce que le Covid-19 ?",
+    "Quels sont les symptômes du Covid-19 ?",
+    "Comment se transmet le Covid-19 ?",
+    "Quels sont les risques de contamination ?",
+    "Quel est la taille moyenne d'une famille ?",
+    "Quel est l'^age moyen d'un crabe ?",
+    "Quel est le nombre de personnes qui ont été contaminées ?",
+    "Pourquoi 42 ?",
+    "Quand est-ce que le monde va mourir ?",
+  ];
 
   @override
   Widget build(BuildContext context) {
     List<Widget> questions = [];
-    for (int i = 1; i <= 9; i++) {
+    for (int i = 1; i <= 8; i++) {
       questions.add(
         Container(
-          color: Colors.grey[300],
-          child: TextButton(
-            onPressed: onPressed,
-            child: Text('$i', style: titleText2),
-          ),
-        ),
+            color: Colors.grey[300],
+            child: TextButton(
+              onPressed: onPressed,
+              child: Text(
+                exemples[Random().nextInt(exemples.length)],
+              ),
+            )),
       );
     }
 
@@ -96,15 +110,12 @@ class QuestionGrid extends StatelessWidget {
           ],
         ),
         Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 150, right: 150),
-            child: GridView.count(
-              primary: false,
-              crossAxisSpacing: 75,
-              mainAxisSpacing: 30,
-              crossAxisCount: 3,
-              children: questions,
-            ),
+          child: GridView.count(
+            primary: false,
+            crossAxisSpacing: 15,
+            mainAxisSpacing: 15,
+            crossAxisCount: 2,
+            children: questions,
           ),
         ),
       ],

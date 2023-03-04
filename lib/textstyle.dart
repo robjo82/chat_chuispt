@@ -8,7 +8,7 @@ TextStyle normalText = const TextStyle(
 
 TextStyle titleText = const TextStyle(
   color: Colors.black,
-  fontSize: 60,
+  fontSize: 40,
   fontWeight: FontWeight.w700,
 );
 

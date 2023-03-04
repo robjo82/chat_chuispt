@@ -26,31 +26,31 @@ class _HistoryPageState extends State<HistoryPage> {
     return Column(children: [
       const SizedBox(height: 100),
       Text('Chat ChuisPT', style: titleText),
-      const SizedBox(height: 50),
+      const SizedBox(height: 25),
       Text('Exemples de questions...', style: titleText2),
-      const SizedBox(height: 100),
+      const SizedBox(height: 50),
       const Flexible(child: History()),
-      //Text(userPost, style: titleText2),
-      Center(
+      Container(
+          alignment: Alignment.bottomCenter,
           child: Padding(
-        padding: const EdgeInsets.only(bottom: 75, right: 75),
-        child: TextField(
-          controller: _textController,
-          style: const TextStyle(color: Colors.black, fontSize: 30),
-          decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              labelText: 'Posez votre question ici...',
-              suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      userPost = _textController.text;
-                      context.read<MainAppState>().addQuestion(userPost);
-                      _textController.clear();
-                    });
-                  },
-                  icon: const Icon(Icons.send))),
-        ),
-      )),
+            padding: const EdgeInsets.only(bottom: 75),
+            child: TextField(
+              controller: _textController,
+              style: normalText,
+              decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: 'Posez votre question ici...',
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          userPost = _textController.text;
+                          context.read<MainAppState>().addQuestion(userPost);
+                          _textController.clear();
+                        });
+                      },
+                      icon: const Icon(Icons.send))),
+            ),
+          )),
     ]);
   }
 }
@@ -74,7 +74,6 @@ class _HistoryState extends State<History> {
     return AnimatedList(
       key: _key,
       reverse: true,
-      padding: const EdgeInsets.only(top: 400),
       initialItemCount: appState.questionsList.length,
       itemBuilder: (context, index, animation) {
         final question = appState.questionsList[index];
@@ -84,10 +83,10 @@ class _HistoryState extends State<History> {
             child: Column(
               children: [
                 const SizedBox(height: 20),
-                Text(question, style: titleText),
+                Text(question, style: titleText2),
                 const SizedBox(height: 20),
                 Text(reponseList[Random().nextInt(reponseList.length)],
-                    style: titleText.copyWith(color: Colors.red)),
+                    style: titleText2.copyWith(color: Colors.red)),
               ],
             ),
           ),

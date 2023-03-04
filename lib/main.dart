@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
         debugShowCheckedModeBanner: false, //debug banner desactivation
         title: 'Chat ChuisPt',
         theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey)),
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.black)),
         home: const MyHomePage(),
       ),
     );
@@ -102,10 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
         )),
-        Expanded(
-            child: Container(
-                //color: Theme.of(context).colorScheme.primaryContainer,
-                child: page)),
+        Expanded(child: Container(child: page)),
       ]));
     });
   }
