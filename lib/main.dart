@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -9,12 +11,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
   void writeData() async {
     DatabaseReference ref = FirebaseDatabase.instance.ref("questions/2");
 
@@ -26,13 +26,31 @@ class MainApp extends StatelessWidget {
     });
   }
 
+  /// Get data from Firebase at questions/$id/text
+  /// Return a Future<String>
+  Future<Object?> getData(id) async {
+    DatabaseReference ref = FirebaseDatabase.instance.ref("questions/$id/text");
+
+    DatabaseEvent event = await ref.once();
+    return event.snapshot.value;
+  }
+
   @override
   Widget build(BuildContext context) {
+    int id = Random().nextInt(2);
     return MaterialApp(
       home: Scaffold(
         body: Center(
-          child:
-              TextButton(onPressed: writeData, child: const Text("Write data")),
+          child: FutureBuilder(
+            future: getData(id),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Text(snapshot.data.toString());
+              } else {
+                return const CircularProgressIndicator();
+              }
+            },
+          ),
         ),
       ),
     );
