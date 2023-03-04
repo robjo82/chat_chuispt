@@ -1,4 +1,6 @@
+import 'package:chat_chuispt/history_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'main_page.dart';
 
@@ -11,13 +13,36 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false, //debug banner desactivation
-      title: 'Chat ChuisPt',
-      theme:
-          ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey)),
-      home: const MyHomePage(),
+    return ChangeNotifierProvider(
+      create: (context) => MainAppState(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false, //debug banner desactivation
+        title: 'Chat ChuisPt',
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey)),
+        home: const MyHomePage(),
+      ),
     );
+  }
+}
+
+class MainAppState extends ChangeNotifier {
+  List<String> questionsList = [];
+  List<String> responsesList = [];
+  var historyKey = GlobalKey();
+
+  void addQuestion(String question) {
+    if (question != '') {
+      questionsList.insert(0, question);
+      notifyListeners();
+      var animatedList = historyKey.currentState as AnimatedListState?;
+      animatedList?.insertItem(0);
+    }
+  }
+
+  void addResponse(String response) {
+    responsesList.add(response);
+    notifyListeners();
   }
 }
 
@@ -39,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = MainPage();
         break;
       case 1:
-        page = const Text('Page 2');
+        page = HistoryPage();
         break;
       case 2:
         page = const Text('Page 3');
@@ -77,7 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
         )),
-        Expanded(child: page),
+        Expanded(
+            child: Container(
+                //color: Theme.of(context).colorScheme.primaryContainer,
+                child: page)),
       ]));
     });
   }

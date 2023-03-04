@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'textstyle.dart';
 import 'main.dart';
@@ -20,6 +21,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<MainAppState>();
+
     return Column(children: [
       const SizedBox(height: 100),
       Text('Chat ChuisPT', style: titleText),
@@ -38,10 +41,8 @@ class _MainPageState extends State<MainPage> {
               labelText: 'Posez votre question ici...',
               suffixIcon: IconButton(
                   onPressed: () {
-                    setState(() {
-                      userPost = _textController.text;
-                      _textController.clear();
-                    });
+                    //appState.Send(_textController);
+                    _textController.clear();
                   },
                   icon: const Icon(Icons.send))),
         ),
