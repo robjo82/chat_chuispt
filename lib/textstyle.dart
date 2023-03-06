@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
 
 TextStyle normalText = const TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontSize: 15,
   fontWeight: FontWeight.w300,
 );
 
 TextStyle titleText = const TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontSize: 40,
   fontWeight: FontWeight.w700,
 );
 
 TextStyle titleText2 = const TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   fontSize: 20,
   fontWeight: FontWeight.w500,
+);
+
+ThemeData themeApp = ThemeData(
+  colorScheme: ColorScheme(
+      primary: Colors.blueGrey.shade900,
+      secondary: Colors.blueGrey.shade500,
+      surface: Colors.blueGrey.shade900,
+      background: Colors.blueGrey.shade600,
+      error: Colors.red,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: Colors.blueGrey.shade400,
+      onBackground: Colors.blueGrey.shade400,
+      onError: Colors.black,
+      brightness: Brightness.light),
 );
 
 

@@ -1,3 +1,4 @@
+import 'package:chat_chuispt/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,8 +18,7 @@ class MainApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false, //debug banner desactivation
         title: 'Chat ChuisPt',
-        theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.black)),
+        theme: themeApp,
         home: const MyHomePage(),
       ),
     );
@@ -73,18 +73,21 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Row(children: [
         SafeArea(
             child: NavigationRail(
-          destinations: const [
+          destinations: [
             NavigationRailDestination(
-              icon: Icon(Icons.home),
-              label: Text('Main'),
+              icon: Icon(Icons.home,
+                  color: Theme.of(context).colorScheme.onPrimary),
+              label: const Text('Home'),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.favorite_border),
-              label: Text('Favorites'),
+              icon: Icon(Icons.favorite_border,
+                  color: Theme.of(context).colorScheme.onPrimary),
+              label: const Text('Favorites'),
             ),
             NavigationRailDestination(
-              icon: Icon(Icons.bookmark_border),
-              label: Text('Bookmarks'),
+              icon: Icon(Icons.bookmark_border,
+                  color: Theme.of(context).colorScheme.onPrimary),
+              label: const Text('Bookmarks'),
             ),
           ],
 

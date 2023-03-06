@@ -25,36 +25,45 @@ class _MainPageState extends State<MainPage> {
 
     // ! LISTE VIDE ! //
     if (appState.responsesList.isEmpty) {
-      return Column(children: [
-        const SizedBox(height: 100),
-        Text('Chat ChuisPT', style: titleText),
-        const SizedBox(height: 5),
-        Text('Exemples de questions...', style: titleText2),
-        const SizedBox(height: 5),
-        Expanded(child: QuestionGrid()),
-        Container(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  bottom: 25, top: 25, right: 15, left: 15),
-              child: TextField(
-                controller: _textController,
-                style: normalText,
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'Posez votre question ici...',
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            userPost = _textController.text;
-                            context.read<MainAppState>().addQuestion(userPost);
-                            _textController.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.send))),
-              ),
-            )),
-      ]);
+      return Consumer<MainAppState>(builder: (context, value, child) {
+        return Container(
+          color: themeApp.colorScheme.background,
+          child: Column(
+            children: [
+              const SizedBox(height: 100),
+              Text('Chat ChuisPT', style: titleText),
+              const SizedBox(height: 5),
+              Text('Exemples de questions...', style: titleText2),
+              const SizedBox(height: 5),
+              Expanded(child: QuestionGrid()),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 25, top: 25, right: 15, left: 15),
+                    child: TextField(
+                      controller: _textController,
+                      style: normalText,
+                      decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          labelText: 'Posez votre question ici...',
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  userPost = _textController.text;
+                                  context
+                                      .read<MainAppState>()
+                                      .addQuestion(userPost);
+                                  _textController.clear();
+                                });
+                              },
+                              icon: const Icon(Icons.send))),
+                    ),
+                  )),
+            ],
+          ),
+        );
+      });
     }
 
     // ! LISTE NON VIDE ! //
@@ -112,7 +121,7 @@ class QuestionGrid extends StatelessWidget {
     List<Widget> questions = [];
 
     // * Génération du tableau aléatoire de questions * //
-    for (int i = 1; i <= 8; i++) {
+    for (int i = 1; i <= 4; i++) {
       questions.add(
         Container(
             color: Colors.grey[300],
@@ -132,31 +141,32 @@ class QuestionGrid extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Center(
-              child: IconButton(
-                onPressed: onPressed,
-                icon: const Icon(Icons.favorite),
+            Padding(
+              padding: const EdgeInsets.only(right: 12, bottom: 10, top: 10),
+              child: Center(
+                child: Icon(
+                  Icons.home,
+                  color: themeApp.colorScheme.onPrimary,
+                ),
               ),
             ),
-            Center(
-              child: IconButton(
-                onPressed: onPressed,
-                icon: const Icon(Icons.home),
-              ),
-            ),
-            Center(
-              child: IconButton(
-                onPressed: onPressed,
-                icon: const Icon(Icons.work),
+            Padding(
+              padding: const EdgeInsets.only(left: 12, bottom: 10, top: 10),
+              child: Center(
+                child: Icon(
+                  Icons.home,
+                  color: themeApp.colorScheme.onPrimary,
+                ),
               ),
             ),
           ],
         ),
         Expanded(
           child: GridView.count(
+            padding: const EdgeInsets.only(right: 20, left: 20),
             primary: false,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
             crossAxisCount: 2,
             children: questions,
           ),
