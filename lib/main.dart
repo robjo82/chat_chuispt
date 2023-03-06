@@ -1,4 +1,3 @@
-import 'package:chat_chuispt/history_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,11 +38,6 @@ class MainAppState extends ChangeNotifier {
       animatedList?.insertItem(0);
     }
   }
-
-  void addResponse(String response) {
-    responsesList.add(response);
-    notifyListeners();
-  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -64,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
         page = MainPage();
         break;
       case 1:
-        page = HistoryPage();
+        page = const Text('Page2');
         break;
       case 2:
         page = const Text('Page 3');
