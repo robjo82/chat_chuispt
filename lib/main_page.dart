@@ -31,12 +31,12 @@ class _MainPageState extends State<MainPage> {
         const SizedBox(height: 5),
         Text('Exemples de questions...', style: titleText2),
         const SizedBox(height: 5),
-        Flexible(child: QuestionGrid()),
-        const Flexible(child: History()),
+        Expanded(child: QuestionGrid()),
         Container(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 75),
+              padding: const EdgeInsets.only(
+                  bottom: 25, top: 25, right: 15, left: 15),
               child: TextField(
                 controller: _textController,
                 style: normalText,
@@ -69,7 +69,7 @@ class _MainPageState extends State<MainPage> {
         Container(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 75),
+              padding: const EdgeInsets.all(20),
               child: TextField(
                 controller: _textController,
                 style: normalText,
@@ -110,6 +110,8 @@ class QuestionGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> questions = [];
+
+    // * Génération du tableau aléatoire de questions * //
     for (int i = 1; i <= 8; i++) {
       questions.add(
         Container(
@@ -118,11 +120,13 @@ class QuestionGrid extends StatelessWidget {
               onPressed: onPressed,
               child: Text(
                 exemples[Random().nextInt(exemples.length)],
+                textAlign: TextAlign.center,
               ),
             )),
       );
     }
 
+    // ! AFFICHAGE ! //
     return Column(
       children: [
         Row(
