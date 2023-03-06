@@ -22,82 +22,89 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MainAppState>();
+    MyTextField textField = MyTextField();
 
     // ! LISTE VIDE ! //
-    if (appState.responsesList.isEmpty) {
-      return Consumer<MainAppState>(builder: (context, value, child) {
-        return Container(
-          color: themeApp.colorScheme.background,
-          child: Column(
-            children: [
-              const SizedBox(height: 100),
-              Text('Chat ChuisPT', style: titleText),
-              const SizedBox(height: 5),
-              Text('Exemples de questions...', style: titleText2),
-              const SizedBox(height: 5),
-              Expanded(child: QuestionGrid()),
-              Container(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 25, top: 25, right: 15, left: 15),
-                    child: TextField(
-                      controller: _textController,
-                      style: normalText,
-                      decoration: InputDecoration(
-                          border: const OutlineInputBorder(),
-                          labelText: 'Posez votre question ici...',
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  userPost = _textController.text;
-                                  context
-                                      .read<MainAppState>()
-                                      .addQuestion(userPost);
-                                  _textController.clear();
-                                });
-                              },
-                              icon: const Icon(Icons.send))),
-                    ),
-                  )),
-            ],
-          ),
-        );
-      });
-    }
 
-    // ! LISTE NON VIDE ! //
-    else {
-      return Column(children: [
-        const SizedBox(height: 100),
-        Text('Chat ChuisPT', style: titleText),
-        const SizedBox(height: 25),
-        Text('Exemples de questions...', style: titleText2),
-        const SizedBox(height: 50),
-        const Flexible(child: History()),
-        Container(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: TextField(
-                controller: _textController,
-                style: normalText,
-                decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: 'Posez votre question ici...',
-                    suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            userPost = _textController.text;
-                            context.read<MainAppState>().addQuestion(userPost);
-                            _textController.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.send))),
+    return Consumer<MainAppState>(builder: (context, value, child) {
+      return appState.questionsList.isEmpty
+          ? Container(
+              color: themeApp.colorScheme.background,
+              child: Column(
+                children: [
+                  const SizedBox(height: 100),
+                  Text('Chat ChuisPT', style: titleText),
+                  const SizedBox(height: 5),
+                  Text('Exemples de questions...', style: titleText2),
+                  const SizedBox(height: 5),
+                  Expanded(child: QuestionGrid()),
+                  Container(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 25, top: 25, right: 15, left: 15),
+                        child: textField,
+                      )),
+                ],
               ),
-            )),
-      ]);
-    }
+            )
+          :
+
+          // ! LISTE NON VIDE ! //
+
+          Container(
+              color: themeApp.colorScheme.background,
+              child: Column(children: [
+                const SizedBox(height: 100),
+                Text('Chat ChuisPT', style: titleText),
+                const SizedBox(height: 25),
+                Text('Exemples de questions...', style: titleText2),
+                const SizedBox(height: 50),
+                const Flexible(child: History()),
+                Container(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                        padding: const EdgeInsets.all(20), child: textField)),
+              ]),
+            );
+    });
+  }
+}
+
+class MyTextField extends StatefulWidget {
+  const MyTextField({Key? key}) : super(key: key);
+
+  @override
+  State<MyTextField> createState() => _MyTextFieldState();
+}
+
+class _MyTextFieldState extends State<MyTextField> {
+  final _textController = TextEditingController();
+  String userPost = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      autocorrect: true,
+      controller: _textController,
+      style: normalText,
+      decoration: InputDecoration(
+          filled: true,
+          fillColor: themeApp.colorScheme.primary,
+          border: const OutlineInputBorder(),
+          labelText: 'Posez votre question ici...',
+          labelStyle: normalText,
+          suffixIcon: IconButton(
+              color: themeApp.colorScheme.onPrimary,
+              onPressed: () {
+                setState(() {
+                  userPost = _textController.text;
+                  context.read<MainAppState>().addQuestion(userPost);
+                  _textController.clear();
+                });
+              },
+              icon: const Icon(Icons.send))),
+    );
   }
 }
 

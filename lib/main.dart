@@ -73,6 +73,8 @@ class _MyHomePageState extends State<MyHomePage> {
           body: Row(children: [
         SafeArea(
             child: NavigationRail(
+          extended: constraints.maxWidth >= 400,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           destinations: [
             NavigationRailDestination(
               icon: Icon(Icons.home,
