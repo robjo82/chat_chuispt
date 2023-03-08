@@ -20,11 +20,19 @@ TextStyle titleText2 = const TextStyle(
 
 ThemeData themeApp = ThemeData(
   colorScheme: ColorScheme(
+
+      // ? PRIMAIRES ? //
       primary: Colors.blueGrey.shade900,
       secondary: Colors.blueGrey.shade500,
+      primaryContainer: Colors.blueGrey.shade700,
+      secondaryContainer: Colors.blueGrey.shade400,
+      error: Colors.red,
+
+      // ? SURFACE ? //
       surface: Colors.blueGrey.shade900,
       background: Colors.blueGrey.shade600,
-      error: Colors.red,
+
+      // ? ON ? //
       onPrimary: Colors.white,
       onSecondary: Colors.white,
       onSurface: Colors.blueGrey.shade400,

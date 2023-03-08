@@ -38,13 +38,10 @@ class _MainPageState extends State<MainPage> {
                   Text('Exemples de questions...', style: titleText2),
                   const SizedBox(height: 5),
                   Expanded(child: QuestionGrid()),
-                  Container(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            bottom: 25, top: 25, right: 15, left: 15),
-                        child: textField,
-                      )),
+                  Padding(
+                      padding: const EdgeInsets.only(
+                          bottom: 25, top: 25, right: 15, left: 15),
+                      child: textField),
                 ],
               ),
             )
@@ -58,13 +55,8 @@ class _MainPageState extends State<MainPage> {
                 const SizedBox(height: 100),
                 Text('Chat ChuisPT', style: titleText),
                 const SizedBox(height: 25),
-                Text('Exemples de questions...', style: titleText2),
-                const SizedBox(height: 50),
                 const Flexible(child: History()),
-                Container(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                        padding: const EdgeInsets.all(20), child: textField)),
+                Padding(padding: const EdgeInsets.all(20), child: textField),
               ]),
             );
     });
@@ -89,8 +81,6 @@ class _MyTextFieldState extends State<MyTextField> {
       controller: _textController,
       style: normalText,
       decoration: InputDecoration(
-          filled: true,
-          fillColor: themeApp.colorScheme.primary,
           border: const OutlineInputBorder(),
           labelText: 'Posez votre question ici...',
           labelStyle: normalText,
@@ -108,9 +98,14 @@ class _MyTextFieldState extends State<MyTextField> {
   }
 }
 
-class QuestionGrid extends StatelessWidget {
+class QuestionGrid extends StatefulWidget {
   QuestionGrid({Key? key}) : super(key: key);
 
+  @override
+  State<QuestionGrid> createState() => _QuestionGridState();
+}
+
+class _QuestionGridState extends State<QuestionGrid> {
   final List<String> exemples = [
     "Qu'est-ce que le Covid-19 ?",
     "Quels sont les symptômes du Covid-19 ?",
@@ -126,14 +121,21 @@ class QuestionGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> questions = [];
+    MainAppState appState = context.watch<MainAppState>();
 
     // * Génération du tableau aléatoire de questions * //
+    String userPost = "";
     for (int i = 1; i <= 4; i++) {
       questions.add(
         Container(
             color: Colors.grey[300],
             child: TextButton(
-              onPressed: onPressed,
+              onPressed: () {
+                setState(() {
+                  userPost = exemples[Random().nextInt(exemples.length)];
+                  context.read<MainAppState>().addQuestion(userPost);
+                });
+              },
               child: Text(
                 exemples[Random().nextInt(exemples.length)],
                 textAlign: TextAlign.center,
@@ -152,7 +154,7 @@ class QuestionGrid extends StatelessWidget {
               padding: const EdgeInsets.only(right: 12, bottom: 10, top: 10),
               child: Center(
                 child: Icon(
-                  Icons.home,
+                  Icons.help_center_outlined,
                   color: themeApp.colorScheme.onPrimary,
                 ),
               ),
@@ -161,7 +163,7 @@ class QuestionGrid extends StatelessWidget {
               padding: const EdgeInsets.only(left: 12, bottom: 10, top: 10),
               child: Center(
                 child: Icon(
-                  Icons.home,
+                  Icons.question_answer,
                   color: themeApp.colorScheme.onPrimary,
                 ),
               ),
@@ -212,11 +214,27 @@ class _HistoryState extends State<History> {
           child: Center(
             child: Column(
               children: [
-                const SizedBox(height: 20),
-                Text(question, style: titleText2),
-                const SizedBox(height: 20),
-                Text(reponseList[Random().nextInt(reponseList.length)],
-                    style: titleText2.copyWith(color: Colors.red)),
+                const SizedBox(height: 10),
+                Container(
+                    // * QUESTION * //
+                    color: themeApp.colorScheme.primaryContainer,
+                    padding: const EdgeInsets.all(10),
+                    child: Text(
+                      question,
+                      style: titleText2,
+                      textAlign: TextAlign.center,
+                    )),
+                const SizedBox(height: 10),
+                Container(
+                  // * REPONSES * //
+                  color: themeApp.colorScheme.secondaryContainer,
+                  padding: const EdgeInsets.all(10),
+                  child: Text(
+                    reponseList[Random().nextInt(reponseList.length)],
+                    style: titleText2,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
               ],
             ),
           ),
