@@ -21,40 +21,39 @@ class _HistoryState extends State<History> {
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
 
-    return AnimatedList(
-      key: _key,
+    return ListView.builder(
       reverse: true,
-      initialItemCount: appState.questionsList.length,
-      itemBuilder: (context, index, animation) {
+      itemCount: appState.questionsList.length,
+      itemBuilder: (context, index) {
         final question = appState.questionsList[index];
-        return SizeTransition(
-          sizeFactor: animation,
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Container(
-                    // * QUESTION * //
-                    color: themeApp.colorScheme.primaryContainer,
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      question,
-                      style: titleText2,
-                      textAlign: TextAlign.center,
-                    )),
-                const SizedBox(height: 10),
-                Container(
-                  // * REPONSES * //
-                  color: themeApp.colorScheme.secondaryContainer,
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    reponseList[Random().nextInt(reponseList.length)],
-                    style: titleText2,
-                    textAlign: TextAlign.center,
-                  ),
+        return Center(
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+
+              // * QUESTION * //
+              Container(
+                color: themeApp.colorScheme.primaryContainer,
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  question,
+                  style: titleText2,
+                  textAlign: TextAlign.center,
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+
+              // * REPONSES * //
+              Container(
+                color: themeApp.colorScheme.secondaryContainer,
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                  reponseList[Random().nextInt(reponseList.length)],
+                  style: titleText2,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ),
         );
       },
