@@ -2,7 +2,7 @@ import 'package:chat_chuispt/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'main_page.dart';
+import 'main page/main_page.dart';
 
 void main() {
   runApp(const MainApp());
