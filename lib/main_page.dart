@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'textstyle.dart';
+import 'constants.dart';
 import 'main.dart';
 
 class MainPage extends StatefulWidget {
@@ -20,33 +20,17 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     var appState = context.watch<MainAppState>();
     MyTextField textField = const MyTextField();
-
-    // ! LISTE VIDE ! //
+    LeftBar leftBar = const LeftBar();
 
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
         body: appState.questionsList.isEmpty
-            ? Row(
+            ? // ! SI LA LISTE EST VIDE ...
+            Row(
                 children: [
-                  Container(
-                      color: themeApp.colorScheme.surface,
-                      width: 75,
-                      child: Column(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(top: 75)),
-                          IconButton(
-                              iconSize: 35,
-                              color: themeApp.colorScheme.onPrimaryContainer,
-                              onPressed: () {
-                                setState(() {
-                                  context
-                                      .read<MainAppState>()
-                                      .clearQuestionList();
-                                });
-                              },
-                              icon: const Icon(Icons.refresh))
-                        ],
-                      )),
+                  // * LeftBar * //
+                  leftBar,
+                  // * Main * //
                   Expanded(
                     child: Container(
                       color: themeApp.colorScheme.background,
@@ -68,31 +52,12 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ],
               )
-            :
-
-            // ! LISTE NON VIDE ! //
-
+            : // ! SINON (liste non vide)...
             Row(
                 children: [
-                  Container(
-                      color: themeApp.colorScheme.surface,
-                      width: 75,
-                      child: Column(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(top: 75)),
-                          IconButton(
-                              iconSize: 35,
-                              color: themeApp.colorScheme.onPrimaryContainer,
-                              onPressed: () {
-                                setState(() {
-                                  context
-                                      .read<MainAppState>()
-                                      .clearQuestionList();
-                                });
-                              },
-                              icon: const Icon(Icons.refresh))
-                        ],
-                      )),
+                  // * LeftBar * //
+                  leftBar,
+                  // * Main * //
                   Expanded(
                     child: Container(
                       color: themeApp.colorScheme.background,
@@ -111,6 +76,36 @@ class _MainPageState extends State<MainPage> {
               ),
       );
     });
+  }
+}
+
+class LeftBar extends StatefulWidget {
+  const LeftBar({Key? key}) : super(key: key);
+
+  @override
+  State<LeftBar> createState() => _LeftBarState();
+}
+
+class _LeftBarState extends State<LeftBar> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: themeApp.colorScheme.surface,
+        width: 75,
+        child: Column(
+          children: [
+            const Padding(padding: EdgeInsets.only(top: 75)),
+            IconButton(
+                iconSize: 35,
+                color: themeApp.colorScheme.onPrimaryContainer,
+                onPressed: () {
+                  setState(() {
+                    context.read<MainAppState>().clearQuestionList();
+                  });
+                },
+                icon: const Icon(Icons.refresh))
+          ],
+        ));
   }
 }
 
