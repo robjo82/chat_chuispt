@@ -40,5 +40,6 @@ class MainAppState extends ChangeNotifier {
 
   void clearQuestionList() {
     questionsList.clear();
+    notifyListeners();
   }
 }
