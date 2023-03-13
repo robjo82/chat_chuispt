@@ -13,52 +13,103 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  var selectedIndex = 0;
-
   // store the user's question
-  final _textController = TextEditingController();
   String userPost = '';
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MainAppState>();
-    MyTextField textField = MyTextField();
+    MyTextField textField = const MyTextField();
 
     // ! LISTE VIDE ! //
 
     return Consumer<MainAppState>(builder: (context, value, child) {
-      return appState.questionsList.isEmpty
-          ? Container(
-              color: themeApp.colorScheme.background,
-              child: Column(
+      return Scaffold(
+        body: appState.questionsList.isEmpty
+            ? Row(
                 children: [
-                  const SizedBox(height: 100),
-                  Text('Chat ChuisPT', style: titleText),
-                  const SizedBox(height: 5),
-                  Text('Exemples de questions...', style: titleText2),
-                  const SizedBox(height: 5),
-                  Expanded(child: QuestionGrid()),
-                  Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 25, top: 25, right: 15, left: 15),
-                      child: textField),
+                  Container(
+                      color: themeApp.colorScheme.primaryContainer,
+                      width: 75,
+                      child: Column(
+                        children: [
+                          const Padding(padding: EdgeInsets.only(top: 75)),
+                          IconButton(
+                              iconSize: 35,
+                              color: themeApp.colorScheme.onPrimaryContainer,
+                              onPressed: () {
+                                setState(() {
+                                  context
+                                      .read<MainAppState>()
+                                      .clearQuestionList();
+                                });
+                              },
+                              icon: const Icon(Icons.refresh))
+                        ],
+                      )),
+                  Expanded(
+                    child: Container(
+                      color: themeApp.colorScheme.background,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 75),
+                          Text('Chat ChuisPT', style: titleText),
+                          const SizedBox(height: 5),
+                          Text('Exemples de questions...', style: titleText2),
+                          const SizedBox(height: 5),
+                          Expanded(child: QuestionGrid()),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 25, top: 25, right: 15, left: 15),
+                              child: textField),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            :
+
+            // ! LISTE NON VIDE ! //
+
+            Row(
+                children: [
+                  Container(
+                      color: themeApp.colorScheme.primaryContainer,
+                      width: 75,
+                      child: Column(
+                        children: [
+                          const Padding(padding: EdgeInsets.only(top: 75)),
+                          IconButton(
+                              iconSize: 35,
+                              color: themeApp.colorScheme.onPrimaryContainer,
+                              onPressed: () {
+                                setState(() {
+                                  context
+                                      .read<MainAppState>()
+                                      .clearQuestionList();
+                                });
+                              },
+                              icon: const Icon(Icons.refresh))
+                        ],
+                      )),
+                  Expanded(
+                    child: Container(
+                      color: themeApp.colorScheme.background,
+                      child: Column(children: [
+                        const SizedBox(height: 75),
+                        Text('Chat ChuisPT', style: titleText),
+                        const SizedBox(height: 25),
+                        const Flexible(child: History()),
+                        Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: textField),
+                      ]),
+                    ),
+                  ),
                 ],
               ),
-            )
-          :
-
-          // ! LISTE NON VIDE ! //
-
-          Container(
-              color: themeApp.colorScheme.background,
-              child: Column(children: [
-                const SizedBox(height: 100),
-                Text('Chat ChuisPT', style: titleText),
-                const SizedBox(height: 25),
-                const Flexible(child: History()),
-                Padding(padding: const EdgeInsets.all(20), child: textField),
-              ]),
-            );
+      );
     });
   }
 }
@@ -121,7 +172,6 @@ class _QuestionGridState extends State<QuestionGrid> {
   @override
   Widget build(BuildContext context) {
     List<Widget> questions = [];
-    MainAppState appState = context.watch<MainAppState>();
 
     // * Génération du tableau aléatoire de questions * //
     String userPost = "";
@@ -183,8 +233,6 @@ class _QuestionGridState extends State<QuestionGrid> {
       ],
     );
   }
-
-  void onPressed() {}
 }
 
 class History extends StatefulWidget {

@@ -34,6 +34,7 @@ ThemeData themeApp = ThemeData(
 
       // ? ON ? //
       onPrimary: Colors.white,
+      onPrimaryContainer: Colors.white,
       onSecondary: Colors.white,
       onSurface: Colors.blueGrey.shade400,
       onBackground: Colors.blueGrey.shade400,
