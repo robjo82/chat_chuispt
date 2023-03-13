@@ -29,7 +29,7 @@ class _MainPageState extends State<MainPage> {
             ? Row(
                 children: [
                   Container(
-                      color: themeApp.colorScheme.primaryContainer,
+                      color: themeApp.colorScheme.surface,
                       width: 75,
                       child: Column(
                         children: [
@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
                           const SizedBox(height: 5),
                           Text('Exemples de questions...', style: titleText2),
                           const SizedBox(height: 5),
-                          Expanded(child: QuestionGrid()),
+                          const Expanded(child: QuestionGrid()),
                           Padding(
                               padding: const EdgeInsets.only(
                                   bottom: 25, top: 25, right: 15, left: 15),
@@ -75,7 +75,7 @@ class _MainPageState extends State<MainPage> {
             Row(
                 children: [
                   Container(
-                      color: themeApp.colorScheme.primaryContainer,
+                      color: themeApp.colorScheme.surface,
                       width: 75,
                       child: Column(
                         children: [
@@ -150,7 +150,7 @@ class _MyTextFieldState extends State<MyTextField> {
 }
 
 class QuestionGrid extends StatefulWidget {
-  QuestionGrid({Key? key}) : super(key: key);
+  const QuestionGrid({Key? key}) : super(key: key);
 
   @override
   State<QuestionGrid> createState() => _QuestionGridState();
