@@ -11,6 +11,8 @@ dependencies:
   firebase_database: ^10.0.14
   flutter:
     sdk: flutter
+  mockito: ^5.3.2
+  firebase_database_mocks: ^0.6.0
 
 dev_dependencies:
   flutter_test:
