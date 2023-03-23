@@ -7,14 +7,15 @@ class DatabaseService {
   Stream<List<String>> getTexts() {
     return _database.child('questions').onValue.map((event) {
       final texts = <String>[];
-      final Map<dynamic, dynamic>? data = event.snapshot.value as Map?;
+
+      final List<dynamic>? data = event.snapshot.value as List<dynamic>?;
       if (data != null) {
-        data.forEach((dynamic key, dynamic value) {
-          final text = value['text'] as String?;
+        for (final question in data) {
+          final text = question['text'] as String?;
           if (text != null) {
             texts.add(text);
           }
-        });
+        }
       }
 
       return texts;
