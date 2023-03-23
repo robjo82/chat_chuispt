@@ -1,8 +1,8 @@
-import 'package:chat_chuispt/show_features_widget.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:chat_chuispt/textstyle.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_chuispt/database_service.dart';
+import 'package:provider/provider.dart';
+
+import 'main_page.dart';
 
 import 'firebase_options.dart';
 
@@ -24,19 +24,32 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final stream = DatabaseService().getData();
-
-    return MaterialApp(
-      home: Scaffold(
-        body: Column(
-          children: [
-            Expanded(
-              child: DataListWidget(stream: stream),
-            ),
-            const AddQuestionWidget(),
-          ],
-        ),
-      ),
+    return ChangeNotifierProvider(
+      create: (context) => MainAppState(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false, //debug banner desactivation
+          title: 'Chat ChuisPt',
+          theme: themeApp,
+          home: const MainPage()),
     );
+  }
+}
+
+class MainAppState extends ChangeNotifier {
+  List<String> questionsList = [];
+  List<String> responsesList = [];
+  var historyKey = GlobalKey();
+
+  void addQuestion(String question) {
+    if (question != '') {
+      questionsList.insert(0, question);
+      notifyListeners();
+      var animatedList = historyKey.currentState as AnimatedListState?;
+      animatedList?.insertItem(0);
+    }
+  }
+
+  void clearQuestionList() {
+    questionsList.clear();
   }
 }
