@@ -4,8 +4,19 @@ import 'package:provider/provider.dart';
 
 import 'main_page.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    runApp(MainApp());
+  } catch (e) {
+    if (kDebugMode) {
+      print(e);
+    }
+  }
 }
 
 class MainApp extends StatelessWidget {
