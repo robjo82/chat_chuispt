@@ -25,34 +25,30 @@ class _MainPageState extends State<MainPage> {
     var appState = context.watch<MainAppState>(); // état de l'application
     MyTextField textField = const MyTextField(); // le champ de texte
     LeftBar leftBar = const LeftBar(); // la barre de gauche
+    MyDrawer myDrawer = const MyDrawer(); // le drawer
 
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
-        body: Row(
-          children: [
-            leftBar,
-            if (appState.questionsList.isEmpty)
-              Expanded(
-                child: Container(
-                  color: themeApp.colorScheme.background,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 75),
-                      Text('Chat ChuisPT', style: titleText),
-                      const SizedBox(height: 5),
-                      Text('Exemples de questions...', style: titleText2),
-                      const SizedBox(height: 5),
-                      const Expanded(child: QuestionGrid()),
-                      Padding(
-                          padding: const EdgeInsets.only(
-                              bottom: 25, top: 25, right: 15, left: 15),
-                          child: textField),
-                    ],
-                  ),
+        //drawer: myDrawer,
+        body: appState.questionsList.isEmpty
+            ? Container(
+                color: themeApp.colorScheme.background,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 75),
+                    Text('Chat ChuisPT', style: titleText),
+                    const SizedBox(height: 5),
+                    Text('Exemples de questions...', style: titleText2),
+                    const SizedBox(height: 5),
+                    const Expanded(child: QuestionGrid()),
+                    Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 25, top: 25, right: 15, left: 15),
+                        child: textField),
+                  ],
                 ),
               )
-            else
-              Expanded(
+            : Expanded(
                 child: Container(
                   color: themeApp.colorScheme.background,
                   child: Column(children: [
@@ -65,8 +61,6 @@ class _MainPageState extends State<MainPage> {
                   ]),
                 ),
               ),
-          ],
-        ),
       );
     });
   }
@@ -99,5 +93,46 @@ class _LeftBarState extends State<LeftBar> {
                 icon: const Icon(Icons.refresh))
           ],
         ));
+  }
+}
+
+class MyDrawer extends StatefulWidget {
+  const MyDrawer({Key? key}) : super(key: key);
+
+  @override
+  _MyDrawerState createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  final List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
+
+  /*void _addItem() {
+    setState(() {
+      _items.add('Item ${_items.length + 1}');
+    });
+  }*/
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView.builder(
+        itemCount: _items.length + 1,
+        itemBuilder: (BuildContext context, int index) {
+          if (index == 0) {
+            return ListTile(
+                title: const Text('Add item'),
+                onTap: () {
+                  //_addItem();
+                });
+          }
+          return ListTile(
+            title: Text(_items[index - 1]),
+            onTap: () {
+              // Do something when the item is tapped
+            },
+          );
+        },
+      ),
+    );
   }
 }
