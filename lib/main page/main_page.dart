@@ -48,18 +48,15 @@ class _MainPageState extends State<MainPage> {
                   ],
                 ),
               )
-            : Expanded(
-                child: Container(
-                  color: themeApp.colorScheme.background,
-                  child: Column(children: [
-                    const SizedBox(height: 75),
-                    Text('Chat ChuisPT', style: titleText),
-                    const SizedBox(height: 25),
-                    const Flexible(child: History()),
-                    Padding(
-                        padding: const EdgeInsets.all(20), child: textField),
-                  ]),
-                ),
+            : Container(
+                color: themeApp.colorScheme.background,
+                child: Column(children: [
+                  const SizedBox(height: 75),
+                  Text('Chat ChuisPT', style: titleText),
+                  const SizedBox(height: 25),
+                  const Flexible(child: History()),
+                  Padding(padding: const EdgeInsets.all(20), child: textField),
+                ]),
               ),
       );
     });
