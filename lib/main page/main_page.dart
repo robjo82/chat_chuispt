@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
     // * Variables :
     var appState = context.watch<MainAppState>(); // état de l'application
     MyTextField textField = const MyTextField(); // le champ de texte
-    MyDrawer myDrawer = const MyDrawer(); // le drawer
+    MyDrawer myDrawer = MyDrawer(); // le drawer
 
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
@@ -70,74 +70,57 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-class LeftBar extends StatefulWidget {
-  const LeftBar({Key? key}) : super(key: key);
-
-  @override
-  State<LeftBar> createState() => _LeftBarState();
-}
-
-class _LeftBarState extends State<LeftBar> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        color: themeApp.colorScheme.surface,
-        width: 75,
-        child: Column(
-          children: [
-            const Padding(padding: EdgeInsets.only(top: 75)),
-            IconButton(
-                iconSize: 35,
-                color: themeApp.colorScheme.onPrimaryContainer,
-                onPressed: () {
-                  setState(() {
-                    context.read<MainAppState>().clearQuestionList();
-                  });
-                },
-                icon: const Icon(Icons.refresh))
+class MyDrawer extends StatelessWidget {
+  void _showContributionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Contribution'),
+          content: Text('Merci pour votre contribution!'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Fermer'),
+            ),
           ],
-        ));
-  }
-}
-
-class MyDrawer extends StatefulWidget {
-  const MyDrawer({Key? key}) : super(key: key);
-
-  @override
-  _MyDrawerState createState() => _MyDrawerState();
-}
-
-class _MyDrawerState extends State<MyDrawer> {
-  final List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
-
-  void _addItem() {
-    setState(() {
-      _items.add('Item ${_items.length + 1}');
-    });
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView.builder(
-        padding: const EdgeInsets.only(top: 50),
-        itemCount: _items.length + 1,
-        itemBuilder: (BuildContext context, int index) {
-          //
-          if (index == 0) {
-            return ListTile(
-                title: const Text('Add item'),
-                onTap: () {
-                  _addItem();
-                });
-          }
-          return ListTile(
-            title: Text(_items[index - 1]),
-            onTap: () {
-              // Do something when the item is tapped
-            },
-          );
-        },
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            decoration: BoxDecoration(color: themeApp.colorScheme.background),
+            child: Text('Menu', style: titleText),
+          ),
+          ListTile(
+            title: Row(
+              children: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context); // Ferme le drawer
+                      _showContributionDialog(context);
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(Icons.add_circle_outline),
+                        const SizedBox(width: 25),
+                        Text("Contribuer",
+                            style: titleText2.copyWith(color: Colors.black)),
+                      ],
+                    ))
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
