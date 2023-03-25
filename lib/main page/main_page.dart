@@ -24,20 +24,28 @@ class _MainPageState extends State<MainPage> {
     // * Variables :
     var appState = context.watch<MainAppState>(); // état de l'application
     MyTextField textField = const MyTextField(); // le champ de texte
-    LeftBar leftBar = const LeftBar(); // la barre de gauche
     MyDrawer myDrawer = const MyDrawer(); // le drawer
 
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
-        //drawer: myDrawer,
+        appBar: AppBar(
+            title: Text('Chat ChuisPT', style: titleText),
+            backgroundColor: themeApp.colorScheme.primaryContainer,
+            elevation: 5,
+            leading: Builder(builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () =>
+                    Scaffold.of(context).openDrawer(), // open the drawer),
+              );
+            })),
+        drawer: myDrawer,
         body: appState.questionsList.isEmpty
             ? Container(
                 color: themeApp.colorScheme.background,
                 child: Column(
                   children: [
-                    const SizedBox(height: 75),
-                    Text('Chat ChuisPT', style: titleText),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 25),
                     Text('Exemples de questions...', style: titleText2),
                     const SizedBox(height: 5),
                     const Expanded(child: QuestionGrid()),
@@ -51,8 +59,6 @@ class _MainPageState extends State<MainPage> {
             : Container(
                 color: themeApp.colorScheme.background,
                 child: Column(children: [
-                  const SizedBox(height: 75),
-                  Text('Chat ChuisPT', style: titleText),
                   const SizedBox(height: 25),
                   const Flexible(child: History()),
                   Padding(padding: const EdgeInsets.all(20), child: textField),
@@ -103,23 +109,24 @@ class MyDrawer extends StatefulWidget {
 class _MyDrawerState extends State<MyDrawer> {
   final List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
 
-  /*void _addItem() {
+  void _addItem() {
     setState(() {
       _items.add('Item ${_items.length + 1}');
     });
-  }*/
+  }
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView.builder(
+        padding: const EdgeInsets.all(10),
         itemCount: _items.length + 1,
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return ListTile(
                 title: const Text('Add item'),
                 onTap: () {
-                  //_addItem();
+                  _addItem();
                 });
           }
           return ListTile(
