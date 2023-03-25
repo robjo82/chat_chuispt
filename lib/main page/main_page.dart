@@ -42,6 +42,7 @@ class _MainPageState extends State<MainPage> {
         drawer: myDrawer,
         body: appState.questionsList.isEmpty
             ? Container(
+                // ! si la liste de questions est vide
                 color: themeApp.colorScheme.background,
                 child: Column(
                   children: [
@@ -57,9 +58,9 @@ class _MainPageState extends State<MainPage> {
                 ),
               )
             : Container(
+                // ! si la liste de questions n'est pas vide
                 color: themeApp.colorScheme.background,
                 child: Column(children: [
-                  const SizedBox(height: 25),
                   const Flexible(child: History()),
                   Padding(padding: const EdgeInsets.all(20), child: textField),
                 ]),
@@ -119,9 +120,10 @@ class _MyDrawerState extends State<MyDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView.builder(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.only(top: 50),
         itemCount: _items.length + 1,
         itemBuilder: (BuildContext context, int index) {
+          //
           if (index == 0) {
             return ListTile(
                 title: const Text('Add item'),
