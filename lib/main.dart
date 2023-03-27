@@ -45,6 +45,7 @@ class MainAppState extends ChangeNotifier {
   List<String> responsesList = [];
   var historyKey = GlobalKey();
 
+  // Adds a question to the list and updates the UI
   void addQuestion(String question) {
     if (question != '') {
       questionsList.insert(0, question);
@@ -54,6 +55,7 @@ class MainAppState extends ChangeNotifier {
     }
   }
 
+  // Clears the question list
   void clearQuestionList() {
     questionsList.clear();
   }

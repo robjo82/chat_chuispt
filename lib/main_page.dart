@@ -16,15 +16,14 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   // store the user's question
-  String userPost = '';
+  String userQuestion = '';
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MainAppState>();
     MyTextField textField = const MyTextField();
 
-    // ! LISTE VIDE ! //
-
+    // Empty list case
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
         body: appState.questionsList.isEmpty
@@ -72,8 +71,7 @@ class _MainPageState extends State<MainPage> {
               )
             :
 
-            // ! LISTE NON VIDE ! //
-
+            // Non-empty list case
             Row(
                 children: [
                   Container(
@@ -125,7 +123,7 @@ class MyTextField extends StatefulWidget {
 
 class _MyTextFieldState extends State<MyTextField> {
   final _textController = TextEditingController();
-  String userPost = '';
+  String userQuestion = '';
 
   @override
   Widget build(BuildContext context) {
@@ -141,8 +139,8 @@ class _MyTextFieldState extends State<MyTextField> {
               color: themeApp.colorScheme.onPrimary,
               onPressed: () {
                 setState(() {
-                  userPost = _textController.text;
-                  context.read<MainAppState>().addQuestion(userPost);
+                  userQuestion = _textController.text;
+                  context.read<MainAppState>().addQuestion(userQuestion);
                   _textController.clear();
                 });
               },
@@ -175,8 +173,8 @@ class _QuestionGridState extends State<QuestionGrid> {
   Widget build(BuildContext context) {
     List<Widget> questions = [];
 
-    // * Génération du tableau aléatoire de questions * //
-    String userPost = "";
+    // Generate a random array of questions
+    String userQuestion = "";
     for (int i = 1; i <= 4; i++) {
       questions.add(
         Container(
@@ -184,8 +182,8 @@ class _QuestionGridState extends State<QuestionGrid> {
             child: TextButton(
               onPressed: () {
                 setState(() {
-                  userPost = exemples[Random().nextInt(exemples.length)];
-                  context.read<MainAppState>().addQuestion(userPost);
+                  userQuestion = exemples[Random().nextInt(exemples.length)];
+                  context.read<MainAppState>().addQuestion(userQuestion);
                 });
               },
               child: Text(
@@ -196,7 +194,7 @@ class _QuestionGridState extends State<QuestionGrid> {
       );
     }
 
-    // ! AFFICHAGE ! //
+    // Display
     return Column(
       children: [
         Row(
@@ -261,7 +259,7 @@ class _HistoryState extends State<History> {
         }
 
         if (snapshot.hasError) {
-          return const Center(child: Text('Une erreur est survenue'));
+          return const Center(child: Text('An error has occurred'));
         }
 
         final reponseList = snapshot.data ?? [];
@@ -291,7 +289,7 @@ class _HistoryState extends State<History> {
                         )),
                     const SizedBox(height: 10),
                     Container(
-                      // * REPONSES * //
+                      // * RESPONSES * //
                       color: themeApp.colorScheme.secondaryContainer,
                       padding: const EdgeInsets.all(10),
                       child: Text(

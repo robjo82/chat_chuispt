@@ -1,13 +1,14 @@
 import 'package:firebase_database/firebase_database.dart';
 
 class DatabaseService {
-  final DatabaseReference _database = FirebaseDatabase.instance.ref('');
+  final DatabaseReference _databaseReference =
+      FirebaseDatabase.instance.ref('');
 
-  // data format : {questions: {id: {text: text, blue_thumb: blueThumb, red_thumb: redThumb}}, ...}
-  // get all the data from the database
+  // data format : {responses: {id: {text: text, blue_thumb: blueThumb, red_thumb: redThumb}}, ...}
+  // Fetches all the data from the database
   Stream<List<Map<String, dynamic>>> getData() {
-    return _database.child('responses').onValue.map((event) {
-      final data = <Map<String, dynamic>>[];
+    return _databaseReference.child('responses').onValue.map((event) {
+      final List<Map<String, dynamic>> data = [];
 
       final Map<dynamic, dynamic>? responses =
           event.snapshot.value as Map<dynamic, dynamic>?;
@@ -16,9 +17,9 @@ class DatabaseService {
           final Map<dynamic, dynamic>? responseMap =
               value as Map<dynamic, dynamic>?;
 
-          final text = responseMap?['text'] as String?;
-          final blueThumb = responseMap?['blue_thumb'] as int?;
-          final redThumb = responseMap?['red_thumb'] as int?;
+          final String? text = responseMap?['text'] as String?;
+          final int? blueThumb = responseMap?['blue_thumb'] as int?;
+          final int? redThumb = responseMap?['red_thumb'] as int?;
 
           if (text != null && blueThumb != null && redThumb != null) {
             data.add({
@@ -35,32 +36,32 @@ class DatabaseService {
     });
   }
 
-  // add a new answer to the database, with his id, text, blue thumb and red thumb
+  // add a new answer to the database, with its id, text, blue thumb and red thumb
   Future<void> addResponse(String text, int blueThumb, int redThumb) {
     final int responseId = DateTime.now().millisecondsSinceEpoch;
-    return _database.child('questions/$responseId').set({
+    return _databaseReference.child('responses/$responseId').set({
       'text': text,
       'blue_thumb': blueThumb,
       'red_thumb': redThumb,
     });
   }
 
-  // update the blue thumb of a question
+  // Updates the blue thumb of a question
   Future<void> updateBlueThumb(String id, int blueThumb) {
-    return _database.child('responses').child(id.toString()).update({
+    return _databaseReference.child('responses').child(id.toString()).update({
       'blue_thumb': blueThumb,
     });
   }
 
-  // update the red thumb of a question
+  // Updates the red thumb of a question
   Future<void> updateRedThumb(String id, int redThumb) {
-    return _database.child('responses').child(id.toString()).update({
+    return _databaseReference.child('responses').child(id.toString()).update({
       'red_thumb': redThumb,
     });
   }
 
   // delete a question
-  Future<void> deleteQuestion(String id) {
-    return _database.child('responses').child(id.toString()).remove();
+  Future<void> deleteResponse(String id) {
+    return _databaseReference.child('responses').child(id.toString()).remove();
   }
 }
