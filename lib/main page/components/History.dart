@@ -1,9 +1,12 @@
+import '../../database_service.dart';
 import '../../main.dart';
 import '../../constants.dart';
 
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../response.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
@@ -14,18 +17,28 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   final _key = GlobalKey();
-  List<String> reponseList = [
-    'oui',
-    'non',
-    'peut-être',
-    'je ne sais pas',
-    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-  ];
+  final DatabaseService _databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
+
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: _databaseService.getData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return const Center(child: Text('An error has occurred'));
+        }
+
+        final reponseList = snapshot.data ?? [];
+        final LocalResponseList localResponseList = LocalResponseList();
+        localResponseList.addResponseListFromMap(reponseList);
+
     return ListView.builder(
       reverse: true,
       itemCount: appState.questionsList.length,
@@ -101,8 +114,8 @@ class _HistoryState extends State<History> {
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

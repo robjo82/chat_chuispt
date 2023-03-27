@@ -6,7 +6,6 @@ import '../main.dart';
 
 import 'components/History.dart';
 import 'components/QuestionsGrid.dart';
-import 'components/Drawer.dart';
 import 'components/TextField.dart';
 
 class MainPage extends StatefulWidget {
@@ -18,15 +17,17 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   // store the user's question
-  String userPost = '';
+  String userQuestion = '';
 
   @override
   Widget build(BuildContext context) {
+
     // * Variables :
     var appState = context.watch<MainAppState>(); // état de l'application
     MyDrawer myDrawer = const MyDrawer(); // le drawer
     MyTextField textField = const MyTextField();
 
+    // Empty list case
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
         appBar: AppBar(
@@ -52,22 +53,62 @@ class _MainPageState extends State<MainPage> {
                       color: themeApp.colorScheme.background,
                       child: Column(
                         children: [
-                          const SizedBox(height: 25),
+                          const SizedBox(height: 75),
+                          Text('Chat ChuisPT', style: titleText),
+                          const SizedBox(height: 5),
                           Text('Exemples de questions...', style: titleText2),
                           const SizedBox(height: 5),
-                          const Expanded(child: QuestionGrid()),
+                          Expanded(child: QuestionGrid()),
+                          Padding(
+                              padding: const EdgeInsets.only(
+                                  bottom: 25, top: 25, right: 15, left: 15),
+                              child: textField),
                         ],
                       ),
-                    )
-                  : Container(
-                      // ! si la liste de questions n'est pas vide
-                      color: themeApp.colorScheme.background,
-                      child: const Expanded(child: History()),
                     ),
-            ),
-            textField
-          ],
-        ),
+                  ),
+                ],
+              )
+            :
+
+            // Non-empty list case
+            Row(
+                children: [
+                  Container(
+                      color: themeApp.colorScheme.primaryContainer,
+                      width: 75,
+                      child: Column(
+                        children: [
+                          const Padding(padding: EdgeInsets.only(top: 75)),
+                          IconButton(
+                              iconSize: 35,
+                              color: themeApp.colorScheme.onPrimaryContainer,
+                              onPressed: () {
+                                setState(() {
+                                  context
+                                      .read<MainAppState>()
+                                      .clearQuestionList();
+                                });
+                              },
+                              icon: const Icon(Icons.refresh))
+                        ],
+                      )),
+                  Expanded(
+                    child: Container(
+                      color: themeApp.colorScheme.background,
+                      child: Column(children: [
+                        const SizedBox(height: 75),
+                        Text('Chat ChuisPT', style: titleText),
+                        const SizedBox(height: 25),
+                        const Flexible(child: History()),
+                        Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: textField),
+                      ]),
+                    ),
+                  ),
+                ],
+              ),
       );
     });
   }

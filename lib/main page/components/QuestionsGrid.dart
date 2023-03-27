@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class QuestionGrid extends StatefulWidget {
-  const QuestionGrid({Key? key}) : super(key: key);
+  QuestionGrid({Key? key}) : super(key: key);
 
   @override
   State<QuestionGrid> createState() => _QuestionGridState();
@@ -29,8 +29,8 @@ class _QuestionGridState extends State<QuestionGrid> {
   Widget build(BuildContext context) {
     List<Widget> questions = [];
 
-    // * Génération du tableau aléatoire de questions * //
-    String userPost = "";
+    // Generate a random array of questions
+    String userQuestion = "";
     for (int i = 1; i <= 4; i++) {
       questions.add(
         Container(
@@ -40,8 +40,8 @@ class _QuestionGridState extends State<QuestionGrid> {
             child: TextButton(
               onPressed: () {
                 setState(() {
-                  userPost = exemples[Random().nextInt(exemples.length)];
-                  context.read<MainAppState>().addQuestion(userPost);
+                  userQuestion = exemples[Random().nextInt(exemples.length)];
+                  context.read<MainAppState>().addQuestion(userQuestion);
                 });
               },
               child: Padding(
@@ -56,7 +56,7 @@ class _QuestionGridState extends State<QuestionGrid> {
       );
     }
 
-    // ! AFFICHAGE ! //
+    // Display
     return Column(
       children: [
         SizedBox(height: 60),
