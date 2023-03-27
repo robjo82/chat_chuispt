@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import '../../main.dart';
 import '../../constants.dart';
 
@@ -26,6 +28,7 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
+    double largeurEcran = MediaQuery.of(context).size.width;
 
     return ListView.builder(
       reverse: true,
@@ -43,7 +46,7 @@ class _HistoryState extends State<History> {
                 children: [
                   Expanded(
                     child: Container(
-                      color: themeApp.colorScheme.primaryContainer,
+                      color: themeApp.colorScheme.secondary,
                       // space of the question container
                       padding: const EdgeInsets.all(10),
                       child: Text(
@@ -57,45 +60,50 @@ class _HistoryState extends State<History> {
               ),
 
               // * REPONSES * //
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                      color: themeApp.colorScheme.secondaryContainer,
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        reponseList[Random().nextInt(reponseList.length)],
-                        style: normalText,
-                        textAlign: TextAlign.center,
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: themeApp.colorScheme.primary,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10),
+                          // * Response
+                          Text(
+                            reponseList[Random().nextInt(reponseList.length)],
+                            style: normalText,
+                            textAlign: TextAlign.center,
+                          ),
+
+                          // * Thumbs
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.thumb_up,
+                                    size: 18,
+                                    color:
+                                        themeApp.colorScheme.onPrimaryContainer,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.thumb_down,
+                                    size: 18,
+                                    color:
+                                        themeApp.colorScheme.onPrimaryContainer,
+                                  )),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.thumb_up,
-                              size: 18,
-                              color: themeApp.colorScheme.onPrimaryContainer,
-                            )),
-                        const SizedBox(
-                            width:
-                                10), // Ajoutez un espace entre les deux icônes
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              Icons.thumb_down,
-                              size: 18,
-                              color: themeApp.colorScheme.onPrimaryContainer,
-                            )),
-                      ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

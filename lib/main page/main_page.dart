@@ -25,14 +25,15 @@ class _MainPageState extends State<MainPage> {
     // * Variables :
     var appState = context.watch<MainAppState>(); // état de l'application
     MyDrawer myDrawer = const MyDrawer(); // le drawer
-    MyTextField textField = MyTextField();
+    MyTextField textField = const MyTextField();
 
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
         appBar: AppBar(
             scrolledUnderElevation: 10,
+            toolbarHeight: 75,
             title: Text('Chat ChuisPT', style: titleText),
-            backgroundColor: themeApp.colorScheme.primaryContainer,
+            backgroundColor: themeApp.colorScheme.secondary,
             elevation: 5,
             leading: Builder(builder: (context) {
               return IconButton(

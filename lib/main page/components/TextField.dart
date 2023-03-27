@@ -27,7 +27,18 @@ class _MyTextFieldState extends State<MyTextField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: themeApp.colorScheme.primaryContainer,
+      decoration: BoxDecoration(
+        color: themeApp.colorScheme.secondary,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(
+                0, 3), // position de l'ombre par rapport au conteneur
+          ),
+        ],
+      ),
       child: Row(
         children: [
           Expanded(
