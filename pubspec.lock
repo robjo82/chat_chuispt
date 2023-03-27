@@ -86,6 +86,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_keyboard_size:
+    dependency: "direct main"
+    description:
+      name: flutter_keyboard_size
+      sha256: "90b6a45ca79a0c756ae38bc5ed90ccaeae4d917c6141a646208c5a98e4285453"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -282,4 +290,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.18.0 <3.0.0"
-  flutter: ">=1.16.0"
+  flutter: ">=2.0.0"

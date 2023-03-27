@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   provider: ^6.0.5
+  flutter_keyboard_size: ^1.0.1
+
 
 dev_dependencies:
   flutter_test:
@@ -21,6 +23,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/logo.png"
+
 
 flutter:
   uses-material-design: true

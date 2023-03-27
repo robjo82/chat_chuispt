@@ -30,7 +30,7 @@ ThemeData themeApp = ThemeData(
 
       // ? SURFACE ? //
       surface: Colors.blueGrey.shade900,
-      background: Colors.blueGrey.shade600,
+      background: Colors.blueGrey.shade400,
 
       // ? ON ? //
       onPrimary: Colors.white,

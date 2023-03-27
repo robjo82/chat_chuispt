@@ -35,7 +35,8 @@ class _HistoryState extends State<History> {
         return Center(
           child: Column(
             children: [
-              const SizedBox(height: 10),
+              // space between 2 [questions/responses]
+              const SizedBox(height: 0),
 
               // * QUESTION * //
               Row(
@@ -43,47 +44,58 @@ class _HistoryState extends State<History> {
                   Expanded(
                     child: Container(
                       color: themeApp.colorScheme.primaryContainer,
+                      // space of the question container
                       padding: const EdgeInsets.all(10),
                       child: Text(
                         question,
-                        style: titleText2,
+                        style: normalText,
                         textAlign: TextAlign.center,
                       ),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
 
               // * REPONSES * //
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Container(
+              Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
                       color: themeApp.colorScheme.secondaryContainer,
                       padding: const EdgeInsets.all(10),
                       child: Text(
                         reponseList[Random().nextInt(reponseList.length)],
-                        style: titleText2,
+                        style: normalText,
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.thumb_up,
-                        color: themeApp.colorScheme.onPrimaryContainer,
-                      )),
-                  IconButton(
-                      onPressed: () {},
-                      icon: Icon(
-                        Icons.thumb_down,
-                        color: themeApp.colorScheme.onPrimaryContainer,
-                      )),
-                ],
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.thumb_up,
+                              size: 18,
+                              color: themeApp.colorScheme.onPrimaryContainer,
+                            )),
+                        const SizedBox(
+                            width:
+                                10), // Ajoutez un espace entre les deux icônes
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.thumb_down,
+                              size: 18,
+                              color: themeApp.colorScheme.onPrimaryContainer,
+                            )),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
