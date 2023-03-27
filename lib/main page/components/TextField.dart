@@ -8,56 +8,33 @@ class MyTextField extends StatefulWidget {
   const MyTextField({Key? key}) : super(key: key);
 
   @override
-  _MyTextFieldState createState() => _MyTextFieldState();
+  State<MyTextField> createState() => _MyTextFieldState();
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  TextEditingController _controller = TextEditingController();
-
-  void _sendMessage() {
-    String message = _controller.text.trim();
-    if (message.isNotEmpty) {
-      print('Message envoyé: $message');
-      var appState = context.read<MainAppState>();
-      appState.addQuestion(message);
-      _controller.clear();
-    }
-  }
+  final _textController = TextEditingController();
+  String userQuestion = '';
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: themeApp.colorScheme.primaryContainer,
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: _controller,
-              keyboardType: TextInputType.text,
-              style: normalText,
-              maxLines: 1,
-              decoration: InputDecoration(
-                hintText: 'Écrivez votre message ici...',
-                hintStyle: normalText,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              onSubmitted: (value) {
-                _sendMessage();
+    return TextField(
+      autocorrect: true,
+      controller: _textController,
+      style: normalText,
+      decoration: InputDecoration(
+          border: const OutlineInputBorder(),
+          labelText: 'Posez votre question ici...',
+          labelStyle: normalText,
+          suffixIcon: IconButton(
+              color: themeApp.colorScheme.onPrimary,
+              onPressed: () {
+                setState(() {
+                  userQuestion = _textController.text;
+                  context.read<MainAppState>().addQuestion(userQuestion);
+                  _textController.clear();
+                });
               },
-            ),
-          ),
-          IconButton(
-            onPressed: _sendMessage,
-            icon: Icon(Icons.send,
-                color: themeApp.colorScheme.onPrimaryContainer),
-          ),
-        ],
-      ),
+              icon: const Icon(Icons.send))),
     );
   }
 }
