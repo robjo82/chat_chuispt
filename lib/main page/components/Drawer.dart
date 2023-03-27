@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants.dart';
+import '../../database_service.dart';
+import '../../main.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -29,6 +31,7 @@ class MyDrawer extends StatelessWidget {
 
   //! dialog window of contribution
   void _showContributionDialog(BuildContext context) {
+    final DatabaseService _databaseService = DatabaseService();
     final TextEditingController _controller = TextEditingController();
     showDialog(
       context: context,
@@ -49,6 +52,8 @@ class MyDrawer extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
+                // Ajoute la nouvelle réponse à la base de données
+                _databaseService.addResponse(_controller.text, 0, 0);
                 Navigator.of(context)
                     .pop(); // Ferme la boîte de dialogue de contribution
                 _showThankYouDialog(

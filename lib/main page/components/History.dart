@@ -1,8 +1,9 @@
+import 'dart:math';
+
 import '../../database_service.dart';
 import '../../main.dart';
 import '../../constants.dart';
 
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,7 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   final _key = GlobalKey();
   final DatabaseService _databaseService = DatabaseService();
+  List<LocalResponse> selectedResponses = [];
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +41,19 @@ class _HistoryState extends State<History> {
         final LocalResponseList localResponseList = LocalResponseList();
         localResponseList.addResponseListFromMap(reponseList);
 
-    return ListView.builder(
-      reverse: true,
-      itemCount: appState.questionsList.length,
-      itemBuilder: (context, index) {
-        final question = appState.questionsList[index];
-        return Center(
-          child: Column(
-            children: [
+        return ListView.builder(
+          reverse: true,
+          itemCount: appState.questionsList.length,
+          itemBuilder: (context, index) {
+            final question = appState.questionsList[index];
+            if (index >= selectedResponses.length) {
+              selectedResponses.insert(
+                  0, localResponseList.getRandomResponseWithWeights());
+              print(selectedResponses);
+            }
+            final randomResponse = selectedResponses[index];
+            return Center(
+                child: Column(children: [
               // space between 2 [questions/responses]
               const SizedBox(height: 0),
 
@@ -81,7 +88,7 @@ class _HistoryState extends State<History> {
                           SizedBox(height: 10),
                           // * Response
                           Text(
-                            reponseList[Random().nextInt(reponseList.length)],
+                            randomResponse.text,
                             style: normalText,
                             textAlign: TextAlign.center,
                           ),
@@ -91,7 +98,11 @@ class _HistoryState extends State<History> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _databaseService.updateBlueThumb(
+                                        randomResponse.id,
+                                        randomResponse.blueThumb + 1);
+                                  },
                                   icon: Icon(
                                     Icons.thumb_up,
                                     size: 18,
@@ -99,7 +110,11 @@ class _HistoryState extends State<History> {
                                         themeApp.colorScheme.onPrimaryContainer,
                                   )),
                               IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    _databaseService.updateRedThumb(
+                                        randomResponse.id,
+                                        randomResponse.redThumb + 1);
+                                  },
                                   icon: Icon(
                                     Icons.thumb_down,
                                     size: 18,
@@ -114,7 +129,7 @@ class _HistoryState extends State<History> {
                   ),
                 ],
               ),
-            );
+            ]));
           },
         );
       },

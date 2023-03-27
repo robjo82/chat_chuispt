@@ -8,12 +8,21 @@ class MyTextField extends StatefulWidget {
   const MyTextField({Key? key}) : super(key: key);
 
   @override
-  State<MyTextField> createState() => _MyTextFieldState();
+  _MyTextFieldState createState() => _MyTextFieldState();
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  final _textController = TextEditingController();
-  String userQuestion = '';
+  TextEditingController _controller = TextEditingController();
+
+  void _sendMessage() {
+    String message = _controller.text.trim();
+    if (message.isNotEmpty) {
+      print('Message envoyé: $message');
+      var appState = context.read<MainAppState>();
+      appState.addQuestion(message);
+      _controller.clear();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +60,15 @@ class _MyTextFieldState extends State<MyTextField> {
               onSubmitted: (value) {
                 _sendMessage();
               },
-              icon: const Icon(Icons.send))),
+            ),
+          ),
+          IconButton(
+            onPressed: _sendMessage,
+            icon: Icon(Icons.send,
+                color: themeApp.colorScheme.onPrimaryContainer),
+          ),
+        ],
+      ),
     );
   }
 }

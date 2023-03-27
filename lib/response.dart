@@ -10,14 +10,13 @@ class LocalResponse {
   int usage = 0;
   double repetitionScore = 1.0;
   double globalScore = 1.0;
+  int lastUsedTimestamp = 0;
 
   LocalResponse(
       {required this.id,
       required this.text,
       required this.blueThumb,
-      required this.redThumb}) {
-    updateGlobalScore();
-  }
+      required this.redThumb});
 
   @override
   String toString() {
@@ -45,33 +44,11 @@ class LocalResponse {
   void increaseUsage() {
     usage++;
   }
-
-  void addUsage(int elementNumber) {
-    usage++;
-    repetitionScore /= elementNumber;
-    updateGlobalScore();
-  }
-
-  void addNonUsage(int elementNumber) {
-    repetitionScore *= (1 + 1 / elementNumber);
-    updateGlobalScore();
-  }
-
-  void updateGlobalScore() {
-    if (redThumb == 0) {
-      globalScore = blueThumb * repetitionScore;
-    } else if (blueThumb == 0) {
-      globalScore = 1 / redThumb * repetitionScore;
-    } else if (blueThumb == redThumb) {
-      globalScore = 1 * repetitionScore;
-    } else {
-      globalScore = blueThumb / redThumb * repetitionScore;
-    }
-  }
 }
 
 class LocalResponseList {
   static List<LocalResponse> listResponse = [];
+  static List<LocalResponse> recentlyUsedResponses = [];
 
   LocalResponseList();
 
@@ -107,19 +84,34 @@ class LocalResponseList {
       throw Exception("La liste est vide, aucune réponse à renvoyer.");
     }
 
-    double totalWeight =
-        listResponse.fold(0, (sum, item) => sum + item.globalScore);
+    const int maxRecentlyUsedResponses =
+        3; // Nombre maximum de réponses à mémoriser
+
+    List<LocalResponse> availableResponses = List.from(listResponse);
+    availableResponses
+        .removeWhere((response) => recentlyUsedResponses.contains(response));
+
+    if (availableResponses.isEmpty) {
+      recentlyUsedResponses.clear();
+      availableResponses = List.from(listResponse);
+    }
+
+    double totalWeight = availableResponses.fold(0, (sum, item) {
+      double itemWeight = (item.blueThumb + 1) / (item.redThumb + 1);
+      return sum + itemWeight;
+    });
+
     double randomWeight = Random().nextDouble() * totalWeight;
     double cumulativeWeight = 0;
 
-    for (var response in listResponse) {
-      cumulativeWeight += response.globalScore;
+    for (var response in availableResponses) {
+      double itemWeight = (response.blueThumb + 1) / (response.redThumb + 1);
+      cumulativeWeight += itemWeight;
+
       if (randomWeight <= cumulativeWeight) {
-        response.addUsage(listResponse.length);
-        for (var otherResponse in listResponse) {
-          if (otherResponse != response) {
-            otherResponse.addNonUsage(listResponse.length);
-          }
+        recentlyUsedResponses.add(response);
+        if (recentlyUsedResponses.length > maxRecentlyUsedResponses) {
+          recentlyUsedResponses.removeAt(0);
         }
         if (kDebugMode) {
           print(response);
