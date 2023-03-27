@@ -30,7 +30,7 @@ ThemeData themeApp = ThemeData(
 
       // ? SURFACE ? //
       surface: Colors.blueGrey.shade900,
-      background: Colors.blueGrey.shade600,
+      background: Colors.blueGrey.shade400,
 
       // ? ON ? //
       onPrimary: Colors.white,
@@ -41,9 +41,3 @@ ThemeData themeApp = ThemeData(
       onError: Colors.black,
       brightness: Brightness.light),
 );
-
-
-// ! TODO ! //
-// ? Régler le fait que la page princpale ne s'affiche pas --> setstate()?
-// ? Rendre utilisable les propositions de questions à poser
-// ? Créer manuellement le thème graphique de l'application

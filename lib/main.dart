@@ -1,10 +1,10 @@
-import 'package:chat_chuispt/textstyle.dart';
+import 'package:chat_chuispt/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
-import 'main_page.dart';
+import 'main page/main_page.dart';
 
 import 'firebase_options.dart';
 
@@ -53,5 +53,6 @@ class MainAppState extends ChangeNotifier {
 
   void clearQuestionList() {
     questionsList.clear();
+    notifyListeners();
   }
 }
