@@ -39,40 +39,80 @@ class _HistoryState extends State<History> {
         final LocalResponseList localResponseList = LocalResponseList();
         localResponseList.addResponseListFromMap(reponseList);
 
-        return AnimatedList(
-          key: _key,
-          reverse: true,
-          initialItemCount: appState.questionsList.length,
-          itemBuilder: (context, index, animation) {
-            final question = appState.questionsList[index];
-            return SizeTransition(
-              sizeFactor: animation,
-              child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    Container(
-                        // * QUESTION * //
-                        color: themeApp.colorScheme.primaryContainer,
-                        padding: const EdgeInsets.all(10),
-                        child: Text(
-                          question,
-                          style: titleText2,
-                          textAlign: TextAlign.center,
-                        )),
-                    const SizedBox(height: 10),
-                    Container(
-                      // * RESPONSES * //
-                      color: themeApp.colorScheme.secondaryContainer,
+    return ListView.builder(
+      reverse: true,
+      itemCount: appState.questionsList.length,
+      itemBuilder: (context, index) {
+        final question = appState.questionsList[index];
+        return Center(
+          child: Column(
+            children: [
+              // space between 2 [questions/responses]
+              const SizedBox(height: 0),
+
+              // * QUESTION * //
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: themeApp.colorScheme.secondary,
+                      // space of the question container
                       padding: const EdgeInsets.all(10),
                       child: Text(
-                        localResponseList.getRandomResponseWithWeights().text,
-                        style: titleText2,
+                        question,
+                        style: normalText,
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
+
+              // * REPONSES * //
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      color: themeApp.colorScheme.primary,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10),
+                          // * Response
+                          Text(
+                            reponseList[Random().nextInt(reponseList.length)],
+                            style: normalText,
+                            textAlign: TextAlign.center,
+                          ),
+
+                          // * Thumbs
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.thumb_up,
+                                    size: 18,
+                                    color:
+                                        themeApp.colorScheme.onPrimaryContainer,
+                                  )),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    Icons.thumb_down,
+                                    size: 18,
+                                    color:
+                                        themeApp.colorScheme.onPrimaryContainer,
+                                  )),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             );
           },

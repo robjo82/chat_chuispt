@@ -17,22 +17,39 @@ class _MyTextFieldState extends State<MyTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      autocorrect: true,
-      controller: _textController,
-      style: normalText,
-      decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          labelText: 'Posez votre question ici...',
-          labelStyle: normalText,
-          suffixIcon: IconButton(
-              color: themeApp.colorScheme.onPrimary,
-              onPressed: () {
-                setState(() {
-                  userQuestion = _textController.text;
-                  context.read<MainAppState>().addQuestion(userQuestion);
-                  _textController.clear();
-                });
+    return Container(
+      decoration: BoxDecoration(
+        color: themeApp.colorScheme.secondary,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(
+                0, 3), // position de l'ombre par rapport au conteneur
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: _controller,
+              keyboardType: TextInputType.text,
+              style: normalText,
+              maxLines: 1,
+              decoration: InputDecoration(
+                hintText: 'Écrivez votre message ici...',
+                hintStyle: normalText,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              onSubmitted: (value) {
+                _sendMessage();
               },
               icon: const Icon(Icons.send))),
     );

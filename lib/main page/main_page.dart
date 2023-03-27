@@ -21,36 +21,35 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    var appState = context.watch<MainAppState>();
+
+    // * Variables :
+    var appState = context.watch<MainAppState>(); // état de l'application
+    MyDrawer myDrawer = const MyDrawer(); // le drawer
     MyTextField textField = const MyTextField();
 
     // Empty list case
     return Consumer<MainAppState>(builder: (context, value, child) {
       return Scaffold(
-        body: appState.questionsList.isEmpty
-            ? Row(
-                children: [
-                  Container(
-                      color: themeApp.colorScheme.primaryContainer,
-                      width: 75,
-                      child: Column(
-                        children: [
-                          const Padding(padding: EdgeInsets.only(top: 75)),
-                          IconButton(
-                              iconSize: 35,
-                              color: themeApp.colorScheme.onPrimaryContainer,
-                              onPressed: () {
-                                setState(() {
-                                  context
-                                      .read<MainAppState>()
-                                      .clearQuestionList();
-                                });
-                              },
-                              icon: const Icon(Icons.refresh))
-                        ],
-                      )),
-                  Expanded(
-                    child: Container(
+        appBar: AppBar(
+            scrolledUnderElevation: 10,
+            toolbarHeight: 75,
+            title: Text('Chat ChuisPT', style: titleText),
+            backgroundColor: themeApp.colorScheme.secondary,
+            elevation: 5,
+            leading: Builder(builder: (context) {
+              return IconButton(
+                icon: const Icon(Icons.menu),
+                onPressed: () =>
+                    Scaffold.of(context).openDrawer(), // open the drawer),
+              );
+            })),
+        drawer: myDrawer,
+        body: Column(
+          children: [
+            Expanded(
+              child: appState.questionsList.isEmpty
+                  ? Container(
+                      // ! si la liste de questions est vide
                       color: themeApp.colorScheme.background,
                       child: Column(
                         children: [

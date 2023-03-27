@@ -34,7 +34,9 @@ class _QuestionGridState extends State<QuestionGrid> {
     for (int i = 1; i <= 4; i++) {
       questions.add(
         Container(
-            color: Colors.grey[300],
+            decoration: BoxDecoration(
+                color: themeApp.colorScheme.secondaryContainer.withOpacity(1),
+                borderRadius: BorderRadius.circular(10)),
             child: TextButton(
               onPressed: () {
                 setState(() {
@@ -42,9 +44,13 @@ class _QuestionGridState extends State<QuestionGrid> {
                   context.read<MainAppState>().addQuestion(userQuestion);
                 });
               },
-              child: Text(
-                exemples[Random().nextInt(exemples.length)],
-                textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  style: normalText,
+                  exemples[Random().nextInt(exemples.length)],
+                  textAlign: TextAlign.center,
+                ),
               ),
             )),
       );
@@ -53,35 +59,32 @@ class _QuestionGridState extends State<QuestionGrid> {
     // Display
     return Column(
       children: [
+        SizedBox(height: 60),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12, bottom: 10, top: 10),
-              child: Center(
-                child: Icon(
-                  Icons.help_center_outlined,
-                  color: themeApp.colorScheme.onPrimary,
-                ),
+            Center(
+              child: Icon(
+                Icons.help_center_outlined,
+                color: themeApp.colorScheme.onPrimary,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 12, bottom: 10, top: 10),
-              child: Center(
-                child: Icon(
-                  Icons.question_answer,
-                  color: themeApp.colorScheme.onPrimary,
-                ),
+            SizedBox(width: 155),
+            Center(
+              child: Icon(
+                Icons.question_answer,
+                color: themeApp.colorScheme.onPrimary,
               ),
             ),
           ],
         ),
+        SizedBox(height: 30),
         Expanded(
           child: GridView.count(
-            padding: const EdgeInsets.only(right: 20, left: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             primary: false,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
             crossAxisCount: 2,
             children: questions,
           ),

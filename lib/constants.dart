@@ -22,22 +22,22 @@ ThemeData themeApp = ThemeData(
   colorScheme: ColorScheme(
 
       // ? PRIMAIRES ? //
-      primary: Colors.blueGrey.shade900,
-      secondary: Colors.blueGrey.shade500,
-      primaryContainer: Colors.blueGrey.shade700,
-      secondaryContainer: Colors.blueGrey.shade400,
+      primary: const Color(0xFF444654), // responses
+      secondary: const Color(0xFF343541), // questions, text Field and appBar
+      primaryContainer: const Color(0xFF202123), // drawer
+      secondaryContainer: const Color(0xFF3E3F4B), //Question grid
       error: Colors.red,
 
       // ? SURFACE ? //
       surface: Colors.blueGrey.shade900,
-      background: Colors.blueGrey.shade400,
+      background: const Color(0xFF444654), // like responses
 
       // ? ON ? //
       onPrimary: Colors.white,
       onPrimaryContainer: Colors.white,
       onSecondary: Colors.white,
-      onSurface: Colors.blueGrey.shade400,
-      onBackground: Colors.blueGrey.shade400,
-      onError: Colors.black,
-      brightness: Brightness.light),
+      onSurface: Colors.white,
+      onBackground: Colors.white,
+      onError: Colors.white,
+      brightness: Brightness.dark),
 );
