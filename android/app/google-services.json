@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "363041976766",
+    "firebase_url": "https://chat-chuispt-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "chat-chuispt",
+    "storage_bucket": "chat-chuispt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:363041976766:android:1fbc51100b4ad0a1cbc9ef",
+        "android_client_info": {
+          "package_name": "com.example.chat_chuispt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "363041976766-bsbrl73aj9euefgqipf7qghk03d2idkf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGPdadzqssGTDxcVR5VTSox_jzhKeZkIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "363041976766-bsbrl73aj9euefgqipf7qghk03d2idkf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
