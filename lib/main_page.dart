@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:chat_chuispt/database_service.dart';
+import 'package:chat_chuispt/response.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -244,48 +246,65 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   final _key = GlobalKey();
-  List<String> reponseList = ['oui', 'non', 'peut-être', 'je ne sais pas'];
+  final DatabaseService _databaseService = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
 
-    return AnimatedList(
-      key: _key,
-      reverse: true,
-      initialItemCount: appState.questionsList.length,
-      itemBuilder: (context, index, animation) {
-        final question = appState.questionsList[index];
-        return SizeTransition(
-          sizeFactor: animation,
-          child: Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                Container(
-                    // * QUESTION * //
-                    color: themeApp.colorScheme.primaryContainer,
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      question,
-                      style: titleText2,
-                      textAlign: TextAlign.center,
-                    )),
-                const SizedBox(height: 10),
-                Container(
-                  // * REPONSES * //
-                  color: themeApp.colorScheme.secondaryContainer,
-                  padding: const EdgeInsets.all(10),
-                  child: Text(
-                    reponseList[Random().nextInt(reponseList.length)],
-                    style: titleText2,
-                    textAlign: TextAlign.center,
-                  ),
+    return StreamBuilder<List<Map<String, dynamic>>>(
+      stream: _databaseService.getData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError) {
+          return const Center(child: Text('Une erreur est survenue'));
+        }
+
+        final reponseList = snapshot.data ?? [];
+        final LocalResponseList localResponseList = LocalResponseList();
+        localResponseList.addResponseListFromMap(reponseList);
+
+        return AnimatedList(
+          key: _key,
+          reverse: true,
+          initialItemCount: appState.questionsList.length,
+          itemBuilder: (context, index, animation) {
+            final question = appState.questionsList[index];
+            return SizeTransition(
+              sizeFactor: animation,
+              child: Center(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                        // * QUESTION * //
+                        color: themeApp.colorScheme.primaryContainer,
+                        padding: const EdgeInsets.all(10),
+                        child: Text(
+                          question,
+                          style: titleText2,
+                          textAlign: TextAlign.center,
+                        )),
+                    const SizedBox(height: 10),
+                    Container(
+                      // * REPONSES * //
+                      color: themeApp.colorScheme.secondaryContainer,
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        localResponseList.getRandomResponseWithWeights().text,
+                        style: titleText2,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );

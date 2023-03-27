@@ -110,7 +110,7 @@ class _AddQuestionWidgetState extends State<AddQuestionWidget> {
         ),
         ElevatedButton(
           onPressed: () {
-            DatabaseService().addQuestion(
+            DatabaseService().addResponse(
               _controller.text,
               0,
               0,
