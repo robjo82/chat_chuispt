@@ -13,14 +13,14 @@ class MyDrawer extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Merci !'),
-          content: const Text('Merci pour votre contribution!'),
+          content: const Text('Merci pour votre contribution !'),
+          icon: const Icon(Icons.check_circle_outline_outlined),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Fermer'),
+              child: Text('Fermer', style: normalText),
             ),
           ],
         );

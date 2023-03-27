@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import '../../main.dart';
 import '../../constants.dart';
 
@@ -28,8 +26,6 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
-    double largeurEcran = MediaQuery.of(context).size.width;
-
     return ListView.builder(
       reverse: true,
       itemCount: appState.questionsList.length,

@@ -36,7 +36,7 @@ class _QuestionGridState extends State<QuestionGrid> {
         Container(
             decoration: BoxDecoration(
                 color: themeApp.colorScheme.secondaryContainer.withOpacity(1),
-                borderRadius: BorderRadius.circular(15)),
+                borderRadius: BorderRadius.circular(10)),
             child: TextButton(
               onPressed: () {
                 setState(() {
