@@ -1,3 +1,4 @@
+import 'package:chat_chuispt/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -108,7 +109,19 @@ class MyDrawer extends StatelessWidget {
                         const SizedBox(width: 25),
                         Text("Réinitialisation", style: titleText2),
                       ],
-                    ))
+                    )),
+
+                // * "Google Sign In" button * //
+                TextButton(
+                    onPressed: () => AuthService().signInWithGoogle(),
+                    child: Row(
+                      children: [
+                        Icon(Icons.login,
+                            color: themeApp.colorScheme.onPrimaryContainer),
+                        const SizedBox(width: 25),
+                        Text("Google Sign In", style: titleText2),
+                      ],
+                    )),
               ],
             ),
           ),
