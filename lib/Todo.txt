@@ -1,0 +1,17 @@
+History --> ListView clignote à cause du setstate() des boutons like et dislike
+Il faudrait créer une nouvelle classe pour les boutons like et dislike et y ajouter une animation pour retirer ce clignotement
+
+Ajouter les tailles de l'écran utilisateur dans les constants
+
+Ajouter une animation lors de la réinitialisation de la liste
+
+
+
+============================================================================
+
+L'erreur de doublon de la première réponse peut être localisé en étudiant le comportement dans la console de debug
+
+Ajouter un logo de chargement lors de l'affichage d'une nouvelle réponse (il y a un délai)
+
+
+Au bout de quelques réponses, la génération et l'historique est complétement mort

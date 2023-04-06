@@ -52,6 +52,7 @@ class _HistoryState extends State<History> {
             }
             final randomResponse = selectedResponses[index];
 
+            // * Like and dislike functions
             void likeResponse() {
               setState(() {
                 if (!selectedResponses[index].isLiked) {
@@ -94,6 +95,7 @@ class _HistoryState extends State<History> {
               });
             }
 
+            // * Thumb icons
             IconData myThumbUp;
             myThumbUp = selectedResponses[index].isLiked
                 ? Icons.thumb_up
@@ -104,8 +106,7 @@ class _HistoryState extends State<History> {
                 ? Icons.thumb_down
                 : Icons.thumb_down_outlined;
 
-            return Center(
-                child: Column(children: [
+            return Column(children: [
               // * QUESTION * //
               Row(
                 children: [
@@ -129,12 +130,13 @@ class _HistoryState extends State<History> {
                 children: [
                   Expanded(
                     child: Container(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 10, right: 10),
                       color: themeApp.colorScheme.primary,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(height: 10),
                           // * Response
                           Text(
                             randomResponse.text,
@@ -174,7 +176,7 @@ class _HistoryState extends State<History> {
                   ),
                 ],
               ),
-            ]));
+            ]);
           },
         );
       },
