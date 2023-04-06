@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import '../../database_service.dart';
 import '../../main.dart';
 import '../../constants.dart';
@@ -17,12 +15,18 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+  // ? Variables
   final _key = GlobalKey();
   final DatabaseService _databaseService = DatabaseService();
   List<LocalResponse> selectedResponses = [];
 
+  // thumbs icons
+  bool isLiked = false;
+  bool isDisliked = false;
+
   @override
   Widget build(BuildContext context) {
+    // ? Variables
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
 
@@ -49,14 +53,51 @@ class _HistoryState extends State<History> {
             if (index >= selectedResponses.length) {
               selectedResponses.insert(
                   0, localResponseList.getRandomResponseWithWeights());
-              print(selectedResponses);
             }
             final randomResponse = selectedResponses[index];
+
+            void likeResponse() {
+              setState(() {
+                if (!isLiked) {
+                  isLiked = true;
+                  isDisliked = false;
+                  _databaseService.updateBlueThumb(
+                      randomResponse.id, randomResponse.blueThumb + 1);
+                } else {
+                  // if already liked, remove like
+                  isLiked = false;
+                  _databaseService.updateBlueThumb(
+                      randomResponse.id, randomResponse.blueThumb - 1);
+                }
+              });
+            }
+
+            void dislikeResponse() {
+              setState(() {
+                if (!isDisliked) {
+                  isDisliked = true;
+                  isLiked = false;
+
+                  _databaseService.updateRedThumb(
+                      randomResponse.id, randomResponse.redThumb + 1);
+                } else {
+                  // if already disliked, remove dislike
+                  isDisliked = false;
+                  _databaseService.updateRedThumb(
+                      randomResponse.id, randomResponse.redThumb - 1);
+                }
+              });
+            }
+
+            IconData myThumbUp;
+            myThumbUp = isLiked ? Icons.thumb_up : Icons.thumb_up_outlined;
+            IconData myThumbDown;
+
+            myThumbDown =
+                isDisliked ? Icons.thumb_down : Icons.thumb_down_outlined;
+
             return Center(
                 child: Column(children: [
-              // space between 2 [questions/responses]
-              const SizedBox(height: 0),
-
               // * QUESTION * //
               Row(
                 children: [
@@ -85,7 +126,7 @@ class _HistoryState extends State<History> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           // * Response
                           Text(
                             randomResponse.text,
@@ -99,24 +140,20 @@ class _HistoryState extends State<History> {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    _databaseService.updateBlueThumb(
-                                        randomResponse.id,
-                                        randomResponse.blueThumb + 1);
+                                    likeResponse();
                                   },
                                   icon: Icon(
-                                    Icons.thumb_up,
+                                    myThumbUp,
                                     size: 18,
                                     color:
                                         themeApp.colorScheme.onPrimaryContainer,
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    _databaseService.updateRedThumb(
-                                        randomResponse.id,
-                                        randomResponse.redThumb + 1);
+                                    dislikeResponse();
                                   },
                                   icon: Icon(
-                                    Icons.thumb_down,
+                                    myThumbDown,
                                     size: 18,
                                     color:
                                         themeApp.colorScheme.onPrimaryContainer,

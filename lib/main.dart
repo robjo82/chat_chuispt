@@ -16,7 +16,7 @@ void main() async {
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    runApp(MainApp());
+    runApp(const MainApp());
   } catch (e) {
     if (kDebugMode) {
       print(e);

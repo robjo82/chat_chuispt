@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../main.dart';
 
-import 'components/history.dart';
+import 'components/History.dart';
 import 'components/questions_grid.dart';
-import 'components/drawer.dart';
+import 'components/Drawer.dart';
 import 'components/text_field.dart';
 
 class MainPage extends StatefulWidget {
@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
                   : Container(
                       // ! si la liste de questions n'est pas vide
                       color: themeApp.colorScheme.background,
-                      child: const Expanded(child: History()),
+                      child: const History(),
                     ),
             ),
             textField
