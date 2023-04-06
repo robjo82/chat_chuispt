@@ -12,6 +12,9 @@ class LocalResponse {
   double globalScore = 1.0;
   int lastUsedTimestamp = 0;
 
+  bool isLiked = false;
+  bool isDisliked = false;
+
   LocalResponse(
       {required this.id,
       required this.text,

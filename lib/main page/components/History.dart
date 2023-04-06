@@ -1,11 +1,10 @@
 import '../../database_service.dart';
 import '../../main.dart';
 import '../../constants.dart';
+import '../../response.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../response.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
@@ -15,14 +14,11 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  // ? Variables
+  //  Variables
+
   final _key = GlobalKey();
   final DatabaseService _databaseService = DatabaseService();
   List<LocalResponse> selectedResponses = [];
-
-  // thumbs icons
-  bool isLiked = false;
-  bool isDisliked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +54,19 @@ class _HistoryState extends State<History> {
 
             void likeResponse() {
               setState(() {
-                if (!isLiked) {
-                  isLiked = true;
-                  isDisliked = false;
+                if (!selectedResponses[index].isLiked) {
+                  selectedResponses[index].isLiked = true;
                   _databaseService.updateBlueThumb(
                       randomResponse.id, randomResponse.blueThumb + 1);
+
+                  if (selectedResponses[index].isDisliked) {
+                    selectedResponses[index].isDisliked = false;
+                    _databaseService.updateRedThumb(
+                        randomResponse.id, randomResponse.redThumb - 1);
+                  }
                 } else {
                   // if already liked, remove like
-                  isLiked = false;
+                  selectedResponses[index].isLiked = false;
                   _databaseService.updateBlueThumb(
                       randomResponse.id, randomResponse.blueThumb - 1);
                 }
@@ -74,15 +75,19 @@ class _HistoryState extends State<History> {
 
             void dislikeResponse() {
               setState(() {
-                if (!isDisliked) {
-                  isDisliked = true;
-                  isLiked = false;
-
+                if (!selectedResponses[index].isDisliked) {
+                  selectedResponses[index].isDisliked = true;
                   _databaseService.updateRedThumb(
                       randomResponse.id, randomResponse.redThumb + 1);
+
+                  if (selectedResponses[index].isLiked) {
+                    selectedResponses[index].isLiked = false;
+                    _databaseService.updateBlueThumb(
+                        randomResponse.id, randomResponse.blueThumb - 1);
+                  }
                 } else {
                   // if already disliked, remove dislike
-                  isDisliked = false;
+                  selectedResponses[index].isDisliked = false;
                   _databaseService.updateRedThumb(
                       randomResponse.id, randomResponse.redThumb - 1);
                 }
@@ -90,11 +95,14 @@ class _HistoryState extends State<History> {
             }
 
             IconData myThumbUp;
-            myThumbUp = isLiked ? Icons.thumb_up : Icons.thumb_up_outlined;
-            IconData myThumbDown;
+            myThumbUp = selectedResponses[index].isLiked
+                ? Icons.thumb_up
+                : Icons.thumb_up_outlined;
 
-            myThumbDown =
-                isDisliked ? Icons.thumb_down : Icons.thumb_down_outlined;
+            IconData myThumbDown;
+            myThumbDown = selectedResponses[index].isDisliked
+                ? Icons.thumb_down
+                : Icons.thumb_down_outlined;
 
             return Center(
                 child: Column(children: [
