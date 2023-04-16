@@ -32,15 +32,15 @@ class MyDrawer extends StatelessWidget {
 
   //! dialog window of contribution
   void _showContributionDialog(BuildContext context) {
-    final DatabaseService _databaseService = DatabaseService();
-    final TextEditingController _controller = TextEditingController();
+    final DatabaseService databaseService = DatabaseService();
+    final TextEditingController controller = TextEditingController();
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Contribution'),
           content: TextField(
-            controller: _controller,
+            controller: controller,
             decoration:
                 const InputDecoration(hintText: 'Entrez votre texte ici'),
           ),
@@ -54,7 +54,7 @@ class MyDrawer extends StatelessWidget {
             TextButton(
               onPressed: () {
                 // Ajoute la nouvelle réponse à la base de données
-                _databaseService.addResponse(_controller.text, 0, 0);
+                databaseService.addResponse(controller.text, 0, 0);
                 Navigator.of(context)
                     .pop(); // Ferme la boîte de dialogue de contribution
                 _showThankYouDialog(
@@ -71,6 +71,7 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MainAppState>(); // état de l'application
+    UserRepository userRepository = UserRepository();
 
     return Drawer(
       backgroundColor: themeApp.colorScheme.primaryContainer.withOpacity(1),
@@ -113,7 +114,7 @@ class MyDrawer extends StatelessWidget {
 
                 // * "Google Sign In" button * //
                 TextButton(
-                    onPressed: () => AuthService().signInWithGoogle(),
+                    onPressed: () => userRepository.signInWithGoogle(),
                     child: Row(
                       children: [
                         Icon(Icons.login,

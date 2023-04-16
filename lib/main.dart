@@ -10,18 +10,34 @@ import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (kDebugMode) {
     print("Firebase initializing...");
   }
+
+  // Vérifie si l'application Firebase par défaut est déjà initialisée
+  FirebaseApp? app;
   try {
-    await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform);
-    runApp(MainApp());
+    app = Firebase.app();
   } catch (e) {
     if (kDebugMode) {
-      print(e);
+      print("No default Firebase app found. Initializing...");
     }
   }
+
+  if (app == null) {
+    // Initialise l'application Firebase si elle n'est pas déjà initialisée
+    try {
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {

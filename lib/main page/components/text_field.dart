@@ -1,5 +1,6 @@
 import 'package:chat_chuispt/constants.dart';
 import 'package:chat_chuispt/main.dart';
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,12 +13,14 @@ class MyTextField extends StatefulWidget {
 }
 
 class _MyTextFieldState extends State<MyTextField> {
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   void _sendMessage() {
     String message = _controller.text.trim();
     if (message.isNotEmpty) {
-      print('Message envoyé: $message');
+      if (kDebugMode) {
+        print('Message envoyé: $message');
+      }
       var appState = context.read<MainAppState>();
       appState.addQuestion(message);
       _controller.clear();

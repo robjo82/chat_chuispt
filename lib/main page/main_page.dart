@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> {
                           const SizedBox(height: 25),
                           Text('Exemples de questions...', style: titleText2),
                           const SizedBox(height: 5),
-                          Expanded(child: QuestionGrid()),
+                          const Expanded(child: QuestionGrid()),
                         ],
                       ),
                     )

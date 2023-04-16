@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'package:flutter/foundation.dart';
 
 import '../../database_service.dart';
 import '../../main.dart';
@@ -49,7 +49,9 @@ class _HistoryState extends State<History> {
             if (index >= selectedResponses.length) {
               selectedResponses.insert(
                   0, localResponseList.getRandomResponseWithWeights());
-              print(selectedResponses);
+              if (kDebugMode) {
+                print(selectedResponses);
+              }
             }
             final randomResponse = selectedResponses[index];
             return Center(
@@ -85,7 +87,7 @@ class _HistoryState extends State<History> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           // * Response
                           Text(
                             randomResponse.text,

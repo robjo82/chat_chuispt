@@ -15,23 +15,22 @@
       },
       "oauth_client": [
         {
-          "client_id": "363041976766-bsbrl73aj9euefgqipf7qghk03d2idkf.apps.googleusercontent.com",
-          "client_type": 3
+          "client_id": "363041976766-tl9dmr417jq5he4trfptd803dqrmrt1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat_chuispt",
+            "certificate_hash": "d17ff4ab9de1ef2e21dec369fed8f212995ac7cc"
+          }
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCGPdadzqssGTDxcVR5VTSox_jzhKeZkIg"
+          "current_key": "AIzaSyCQ7ztHs0OgK4ct3om9FvwSD04jJ8_yc_Q"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "363041976766-bsbrl73aj9euefgqipf7qghk03d2idkf.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
