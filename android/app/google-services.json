@@ -1,36 +1,36 @@
 {
   "project_info": {
-    "project_number": "363041976766",
-    "firebase_url": "https://chat-chuispt-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "chat-chuispt",
-    "storage_bucket": "chat-chuispt.appspot.com"
+    "project_number": "602018350042",
+    "project_id": "chatchuispt",
+    "storage_bucket": "chatchuispt.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:363041976766:android:1fbc51100b4ad0a1cbc9ef",
+        "mobilesdk_app_id": "1:602018350042:android:0d1c3fc1f630cc1aebf6e3",
         "android_client_info": {
-          "package_name": "com.example.chat_chuispt"
+          "package_name": "com.example.chatchuispt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "363041976766-tl9dmr417jq5he4trfptd803dqrmrt1n.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.chat_chuispt",
-            "certificate_hash": "d17ff4ab9de1ef2e21dec369fed8f212995ac7cc"
-          }
+          "client_id": "602018350042-pqhh96k2e0q1puvksh9i10ns71pls7op.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCQ7ztHs0OgK4ct3om9FvwSD04jJ8_yc_Q"
+          "current_key": "AIzaSyBnmy2lnGsUDJFuqIGlgOc1sB9X8QduC0o"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602018350042-pqhh96k2e0q1puvksh9i10ns71pls7op.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
