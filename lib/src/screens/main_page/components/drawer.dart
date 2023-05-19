@@ -102,6 +102,7 @@ class MyDrawer extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       appState.clearQuestionList();
+                      Navigator.pop(context);
                     },
                     child: Row(
                       children: [
@@ -111,18 +112,34 @@ class MyDrawer extends StatelessWidget {
                         Text("Réinitialisation", style: titleText2),
                       ],
                     )),
-
-                // * "Google Sign In" button * //
-                TextButton(
-                    onPressed: () => userRepository.signInWithGoogle(),
-                    child: Row(
-                      children: [
-                        Icon(Icons.login,
-                            color: themeApp.colorScheme.onPrimaryContainer),
-                        const SizedBox(width: 25),
-                        Text("Google Sign In", style: titleText2),
-                      ],
-                    )),
+                // si l'utilisateur est connecté, affiche le bouton de déconnexion, sinon affiche le bouton de connexion
+                userRepository.getCurrentUser() == null
+                    ? // * "Google Sign In" button * //
+                    TextButton(
+                        onPressed: () => {
+                              userRepository.signInWithGoogle(),
+                              Navigator.pop(context)
+                            },
+                        child: Row(
+                          children: [
+                            Icon(Icons.login,
+                                color: themeApp.colorScheme.onPrimaryContainer),
+                            const SizedBox(width: 25),
+                            Text("Se connecter", style: titleText2),
+                          ],
+                        ))
+                    : // * "Google Sign Out" button * //
+                    TextButton(
+                        onPressed: () =>
+                            {userRepository.signOut(), Navigator.pop(context)},
+                        child: Row(
+                          children: [
+                            Icon(Icons.logout,
+                                color: themeApp.colorScheme.onPrimaryContainer),
+                            const SizedBox(width: 25),
+                            Text("Se déconnecter", style: titleText2),
+                          ],
+                        )),
               ],
             ),
           ),
