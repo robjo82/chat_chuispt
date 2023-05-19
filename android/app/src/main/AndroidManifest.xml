@@ -1,7 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chat_chuispt">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="Chat Chuispt"
+        android:label="chatchuispt"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

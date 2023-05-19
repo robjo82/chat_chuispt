@@ -1,12 +1,12 @@
-import '../../main.dart';
-import '../../constants.dart';
+import 'package:chatchuispt/main.dart';
+import 'package:chatchuispt/assets/constants/constants.dart';
 
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class QuestionGrid extends StatefulWidget {
-  QuestionGrid({Key? key}) : super(key: key);
+  const QuestionGrid({Key? key}) : super(key: key);
 
   @override
   State<QuestionGrid> createState() => _QuestionGridState();
@@ -59,7 +59,7 @@ class _QuestionGridState extends State<QuestionGrid> {
     // Display
     return Column(
       children: [
-        SizedBox(height: 60),
+        const SizedBox(height: 60),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -69,7 +69,7 @@ class _QuestionGridState extends State<QuestionGrid> {
                 color: themeApp.colorScheme.onPrimary,
               ),
             ),
-            SizedBox(width: 155),
+            const SizedBox(width: 155),
             Center(
               child: Icon(
                 Icons.question_answer,
@@ -78,7 +78,7 @@ class _QuestionGridState extends State<QuestionGrid> {
             ),
           ],
         ),
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         Expanded(
           child: GridView.count(
             padding: const EdgeInsets.symmetric(horizontal: 20),

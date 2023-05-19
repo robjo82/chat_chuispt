@@ -1,13 +1,13 @@
-import 'dart:math';
+import 'package:flutter/foundation.dart';
 
-import '../../database_service.dart';
-import '../../main.dart';
-import '../../constants.dart';
+import 'package:chatchuispt/src/repositories/database/database_repository.dart';
+import 'package:chatchuispt/main.dart';
+import 'package:chatchuispt/assets/constants/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../response.dart';
+import 'package:chatchuispt/src/models/responses.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
@@ -49,7 +49,9 @@ class _HistoryState extends State<History> {
             if (index >= selectedResponses.length) {
               selectedResponses.insert(
                   0, localResponseList.getRandomResponseWithWeights());
-              print(selectedResponses);
+              if (kDebugMode) {
+                print(selectedResponses);
+              }
             }
             final randomResponse = selectedResponses[index];
             return Center(
@@ -85,7 +87,7 @@ class _HistoryState extends State<History> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           // * Response
                           Text(
                             randomResponse.text,
