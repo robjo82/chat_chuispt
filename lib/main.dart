@@ -1,107 +1,78 @@
-import 'package:chatchuispt/src/repositories/authentication/user_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:chatchuispt/assets/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 
-Future<void> main() async {
+import 'src/screens/main_page/main_page.dart';
+import 'firebase_options.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
 
-  runApp(const MyApp());
+  if (kDebugMode) {
+    print("Firebase initializing...");
+  }
+
+  // Vérifie si l'application Firebase par défaut est déjà initialisée
+  FirebaseApp? app;
+  try {
+    app = Firebase.app();
+  } catch (e) {
+    if (kDebugMode) {
+      print("No default Firebase app found. Initializing...");
+    }
+  }
+
+  if (app == null) {
+    // Initialise l'application Firebase si elle n'est pas déjà initialisée
+    try {
+      await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
+  runApp(const MainApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MainApp extends StatelessWidget {
+  const MainApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return ChangeNotifierProvider(
+      create: (context) => MainAppState(),
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false, //debug banner desactivation
+          title: 'Chat ChuisPt',
+          theme: themeApp,
+          home: const MainPage()),
     );
   }
 }
 
-// Home page which just allow to sign in with Google, display the current user and sign out
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MainAppState extends ChangeNotifier {
+  List<String> questionsList = [];
+  List<String> responsesList = [];
+  var historyKey = GlobalKey();
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-// State of the home page
-class _MyHomePageState extends State<MyHomePage> {
-  // User repository
-  final UserRepository _userRepository = UserRepository();
-
-  // Current user
-  User? _currentUser;
-
-  // Method to sign in with Google
-  Future<void> _signInWithGoogle() async {
-    final User? user = await _userRepository.signInWithGoogle();
-    setState(() {
-      _currentUser = user;
-    });
+  // Adds a question to the list and updates the UI
+  void addQuestion(String question) {
+    if (question != '') {
+      questionsList.insert(0, question);
+      notifyListeners();
+      var animatedList = historyKey.currentState as AnimatedListState?;
+      animatedList?.insertItem(0);
+    }
   }
 
-  // Method to sign out
-  Future<void> _signOut() async {
-    await _userRepository.signOut();
-    setState(() {
-      _currentUser = null;
-    });
-  }
-
-  // Method to get the current user
-  Future<void> _getCurrentUser() async {
-    final User? user = _userRepository.getCurrentUser();
-    setState(() {
-      _currentUser = user;
-    });
-  }
-
-  // Build the home page
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            // Sign in button
-            ElevatedButton(
-              onPressed: _signInWithGoogle,
-              child: const Text('Sign in with Google'),
-            ),
-            // Current user
-            Text(
-              'Current user: ${_currentUser?.displayName ?? 'None'}',
-            ),
-            // Sign out button
-            ElevatedButton(
-              onPressed: _signOut,
-              child: const Text('Sign out'),
-            ),
-            // Get current user button
-            ElevatedButton(
-              onPressed: _getCurrentUser,
-              child: const Text('Get current user'),
-            ),
-          ],
-        ),
-      ),
-    );
+  // Clears the question list
+  void clearQuestionList() {
+    questionsList.clear();
+    notifyListeners();
   }
 }

@@ -57,6 +57,7 @@ class DefaultFirebaseOptions {
     appId: '1:602018350042:android:0d1c3fc1f630cc1aebf6e3',
     messagingSenderId: '602018350042',
     projectId: 'chatchuispt',
+    databaseURL: 'https://chatchuispt-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'chatchuispt.appspot.com',
   );
 }
