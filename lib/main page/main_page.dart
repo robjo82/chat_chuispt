@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import '../constants.dart';
 import '../main.dart';
 
-import 'components/History.dart';
+import 'components/history.dart';
 import 'components/questions_grid.dart';
-import 'components/Drawer.dart';
+import 'components/drawer.dart';
 import 'components/text_field.dart';
 
 class MainPage extends StatefulWidget {
