@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 import 'package:chatchuispt/src/repositories/database/database_repository.dart';
 import 'package:chatchuispt/main.dart';
 import 'package:chatchuispt/assets/constants/constants.dart';
@@ -49,16 +47,64 @@ class _HistoryState extends State<History> {
             if (index >= selectedResponses.length) {
               selectedResponses.insert(
                   0, localResponseList.getRandomResponseWithWeights());
-              if (kDebugMode) {
-                print(selectedResponses);
-              }
             }
             final randomResponse = selectedResponses[index];
-            return Center(
-                child: Column(children: [
-              // space between 2 [questions/responses]
-              const SizedBox(height: 0),
 
+            // * Like and dislike functions
+            void likeResponse() {
+              setState(() {
+                if (!selectedResponses[index].isLiked) {
+                  selectedResponses[index].isLiked = true;
+                  _databaseService.updateBlueThumb(
+                      randomResponse.id, randomResponse.blueThumb + 1);
+
+                  if (selectedResponses[index].isDisliked) {
+                    selectedResponses[index].isDisliked = false;
+                    _databaseService.updateRedThumb(
+                        randomResponse.id, randomResponse.redThumb - 1);
+                  }
+                } else {
+                  // if already liked, remove like
+                  selectedResponses[index].isLiked = false;
+                  _databaseService.updateBlueThumb(
+                      randomResponse.id, randomResponse.blueThumb - 1);
+                }
+              });
+            }
+
+            void dislikeResponse() {
+              setState(() {
+                if (!selectedResponses[index].isDisliked) {
+                  selectedResponses[index].isDisliked = true;
+                  _databaseService.updateRedThumb(
+                      randomResponse.id, randomResponse.redThumb + 1);
+
+                  if (selectedResponses[index].isLiked) {
+                    selectedResponses[index].isLiked = false;
+                    _databaseService.updateBlueThumb(
+                        randomResponse.id, randomResponse.blueThumb - 1);
+                  }
+                } else {
+                  // if already disliked, remove dislike
+                  selectedResponses[index].isDisliked = false;
+                  _databaseService.updateRedThumb(
+                      randomResponse.id, randomResponse.redThumb - 1);
+                }
+              });
+            }
+
+            // * Thumb icons
+            IconData myThumbUp;
+            myThumbUp = selectedResponses[index].isLiked
+                ? Icons.thumb_up
+                : Icons.thumb_up_outlined;
+
+            IconData myThumbDown;
+            myThumbDown = selectedResponses[index].isDisliked
+                ? Icons.thumb_down
+                : Icons.thumb_down_outlined;
+
+            return Column(children: [
               // * QUESTION * //
               Row(
                 children: [
@@ -82,12 +128,13 @@ class _HistoryState extends State<History> {
                 children: [
                   Expanded(
                     child: Container(
+                      padding:
+                          const EdgeInsets.only(left: 10, top: 10, right: 10),
                       color: themeApp.colorScheme.primary,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const SizedBox(height: 10),
                           // * Response
                           Text(
                             randomResponse.text,
@@ -101,24 +148,20 @@ class _HistoryState extends State<History> {
                             children: [
                               IconButton(
                                   onPressed: () {
-                                    _databaseService.updateBlueThumb(
-                                        randomResponse.id,
-                                        randomResponse.blueThumb + 1);
+                                    likeResponse();
                                   },
                                   icon: Icon(
-                                    Icons.thumb_up,
+                                    myThumbUp,
                                     size: 18,
                                     color:
                                         themeApp.colorScheme.onPrimaryContainer,
                                   )),
                               IconButton(
                                   onPressed: () {
-                                    _databaseService.updateRedThumb(
-                                        randomResponse.id,
-                                        randomResponse.redThumb + 1);
+                                    dislikeResponse();
                                   },
                                   icon: Icon(
-                                    Icons.thumb_down,
+                                    myThumbDown,
                                     size: 18,
                                     color:
                                         themeApp.colorScheme.onPrimaryContainer,
@@ -131,7 +174,7 @@ class _HistoryState extends State<History> {
                   ),
                 ],
               ),
-            ]));
+            ]);
           },
         );
       },

@@ -13,30 +13,15 @@ void main() async {
   if (kDebugMode) {
     print("Firebase initializing...");
   }
-
-  // Vérifie si l'application Firebase par défaut est déjà initialisée
-  FirebaseApp? app;
   try {
-    app = Firebase.app();
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    runApp(const MainApp());
   } catch (e) {
     if (kDebugMode) {
-      print("No default Firebase app found. Initializing...");
+      print(e);
     }
   }
-
-  if (app == null) {
-    // Initialise l'application Firebase si elle n'est pas déjà initialisée
-    try {
-      await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform);
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
-
-  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {

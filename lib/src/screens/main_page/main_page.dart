@@ -62,7 +62,7 @@ class _MainPageState extends State<MainPage> {
                   : Container(
                       // ! si la liste de questions n'est pas vide
                       color: themeApp.colorScheme.background,
-                      child: const Expanded(child: History()),
+                      child: const History(),
                     ),
             ),
             textField
