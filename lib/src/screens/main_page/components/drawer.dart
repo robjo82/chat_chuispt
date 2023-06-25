@@ -1,10 +1,10 @@
-import 'package:chatchuispt/src/repositories/authentication/user_repository.dart';
+import 'package:chat_chuispt/src/repositories/authentication/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:chatchuispt/assets/constants/constants.dart';
-import 'package:chatchuispt/src/repositories/database/database_repository.dart';
-import 'package:chatchuispt/main.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
+import 'package:chat_chuispt/src/repositories/database/database_repository.dart';
+import 'package:chat_chuispt/main.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key? key}) : super(key: key);

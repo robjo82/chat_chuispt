@@ -1,5 +1,5 @@
-import 'package:chatchuispt/main.dart';
-import 'package:chatchuispt/assets/constants/constants.dart';
+import 'package:chat_chuispt/main.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
 
 import 'dart:math';
 import 'package:flutter/material.dart';

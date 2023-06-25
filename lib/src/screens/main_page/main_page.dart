@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:chatchuispt/assets/constants/constants.dart';
-import 'package:chatchuispt/main.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
+import 'package:chat_chuispt/main.dart';
 
 import 'components/history.dart';
 import 'components/questions_grid.dart';

@@ -1,4 +1,4 @@
-import 'package:chatchuispt/assets/constants/constants.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';

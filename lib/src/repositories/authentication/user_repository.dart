@@ -3,7 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart';
 
-import 'package:chatchuispt/src/models/user.dart';
+import 'package:chat_chuispt/src/models/user.dart';
 
 // Classe pour gérer les interactions avec les utilisateurs
 class UserRepository {

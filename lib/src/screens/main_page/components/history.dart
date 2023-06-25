@@ -1,11 +1,11 @@
-import 'package:chatchuispt/src/repositories/database/database_repository.dart';
-import 'package:chatchuispt/main.dart';
-import 'package:chatchuispt/assets/constants/constants.dart';
+import 'package:chat_chuispt/src/repositories/database/database_repository.dart';
+import 'package:chat_chuispt/main.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:chatchuispt/src/models/responses.dart';
+import 'package:chat_chuispt/src/models/responses.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
