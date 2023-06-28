@@ -118,6 +118,7 @@ class MyDrawer extends StatelessWidget {
                     TextButton(
                         onPressed: () => {
                               userRepository.signInWithGoogle(),
+                              appState.clearQuestionList(),
                               Navigator.pop(context)
                             },
                         child: Row(
