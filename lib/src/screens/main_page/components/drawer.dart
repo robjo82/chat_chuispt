@@ -130,8 +130,11 @@ class MyDrawer extends StatelessWidget {
                         ))
                     : // * "Google Sign Out" button * //
                     TextButton(
-                        onPressed: () =>
-                            {userRepository.signOut(), Navigator.pop(context)},
+                        onPressed: () => {
+                              userRepository.signOut(),
+                              appState.clearQuestionList(),
+                              Navigator.pop(context)
+                            },
                         child: Row(
                           children: [
                             Icon(Icons.logout,
