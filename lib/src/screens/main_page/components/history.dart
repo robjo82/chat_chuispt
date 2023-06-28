@@ -35,9 +35,9 @@ class _HistoryState extends State<History> {
           return const Center(child: Text('An error has occurred'));
         }
 
-        final reponseList = snapshot.data ?? [];
+        final responseList = snapshot.data ?? [];
         final LocalResponseList localResponseList = LocalResponseList();
-        localResponseList.addResponseListFromMap(reponseList);
+        localResponseList.addResponseListFromMap(responseList);
 
         return ListView.builder(
           reverse: true,
@@ -50,24 +50,23 @@ class _HistoryState extends State<History> {
             }
             final randomResponse = selectedResponses[index];
 
-            // * Like and dislike functions
             void likeResponse() {
               setState(() {
                 if (!selectedResponses[index].isLiked) {
-                  selectedResponses[index].isLiked = true;
-                  _databaseService.updateBlueThumb(
-                      randomResponse.id, randomResponse.blueThumb + 1);
-
-                  if (selectedResponses[index].isDisliked) {
+                  if (!selectedResponses[index].isDisliked) {
+                    selectedResponses[index].isLiked = true;
+                    _databaseService.vote(
+                        selectedResponses[index].id, "unvoted", "blue");
+                  } else {
+                    selectedResponses[index].isLiked = true;
                     selectedResponses[index].isDisliked = false;
-                    _databaseService.updateRedThumb(
-                        randomResponse.id, randomResponse.redThumb - 1);
+                    _databaseService.vote(
+                        selectedResponses[index].id, "red", "blue");
                   }
                 } else {
-                  // if already liked, remove like
                   selectedResponses[index].isLiked = false;
-                  _databaseService.updateBlueThumb(
-                      randomResponse.id, randomResponse.blueThumb - 1);
+                  _databaseService.vote(
+                      selectedResponses[index].id, "blue", "unvoted");
                 }
               });
             }
@@ -75,20 +74,20 @@ class _HistoryState extends State<History> {
             void dislikeResponse() {
               setState(() {
                 if (!selectedResponses[index].isDisliked) {
-                  selectedResponses[index].isDisliked = true;
-                  _databaseService.updateRedThumb(
-                      randomResponse.id, randomResponse.redThumb + 1);
-
-                  if (selectedResponses[index].isLiked) {
+                  if (!selectedResponses[index].isLiked) {
+                    selectedResponses[index].isDisliked = true;
+                    _databaseService.vote(
+                        selectedResponses[index].id, "unvoted", "red");
+                  } else {
+                    selectedResponses[index].isDisliked = true;
                     selectedResponses[index].isLiked = false;
-                    _databaseService.updateBlueThumb(
-                        randomResponse.id, randomResponse.blueThumb - 1);
+                    _databaseService.vote(
+                        selectedResponses[index].id, "blue", "red");
                   }
                 } else {
-                  // if already disliked, remove dislike
                   selectedResponses[index].isDisliked = false;
-                  _databaseService.updateRedThumb(
-                      randomResponse.id, randomResponse.redThumb - 1);
+                  _databaseService.vote(
+                      selectedResponses[index].id, "red", "unvoted");
                 }
               });
             }
