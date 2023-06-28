@@ -26,13 +26,28 @@ class _HistoryState extends State<History> {
   final DatabaseService _databaseService = DatabaseService();
   List<QuestionResponse> questionResponses = [];
 
+  late Future<LocalResponseList> localResponseListFuture;
+
+  Future<LocalResponseList> initializeLocalResponseList() async {
+    final responseList = await _databaseService.getData();
+    final LocalResponseList localResponseList = LocalResponseList();
+    localResponseList.addResponseListFromMap(responseList);
+    return localResponseList;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    localResponseListFuture = initializeLocalResponseList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<MainAppState>();
     appState.historyKey = _key;
 
-    return StreamBuilder<List<Map<String, dynamic>>>(
-      stream: _databaseService.getData(),
+    return FutureBuilder<LocalResponseList>(
+      future: localResponseListFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -42,9 +57,7 @@ class _HistoryState extends State<History> {
           return const Center(child: Text('An error has occurred'));
         }
 
-        final responseList = snapshot.data ?? [];
-        final LocalResponseList localResponseList = LocalResponseList();
-        localResponseList.addResponseListFromMap(responseList);
+        final localResponseList = snapshot.data!;
 
         for (int i = 0; i < appState.questionsList.length; i++) {
           if (questionResponses.length <= i) {

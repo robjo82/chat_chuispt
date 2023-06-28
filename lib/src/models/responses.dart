@@ -9,7 +9,6 @@ class LocalResponse {
   int redThumb = 0;
   int usage = 0;
   double repetitionScore = 1.0;
-  double globalScore = 1.0;
   int lastUsedTimestamp = 0;
 
   bool isLiked = false;
@@ -28,8 +27,7 @@ class LocalResponse {
         "blueThumb: $blueThumb\t"
         "redThumb: $redThumb\t"
         "usage: $usage\t"
-        "repetitionScore: $repetitionScore\t"
-        "globalScore: $globalScore\t";
+        "repetitionScore: $repetitionScore\t";
   }
 
   String getText() {
@@ -47,11 +45,20 @@ class LocalResponse {
   void increaseUsage() {
     usage++;
   }
+
+  void increaseRepetitionScore() {
+    repetitionScore *= 50;
+  }
+
+  void decreaseRepetitionScore() {
+    repetitionScore = max(1.0, repetitionScore - 1.0);
+  }
 }
 
 class LocalResponseList {
   static List<LocalResponse> listResponse = [];
   static List<LocalResponse> recentlyUsedResponses = [];
+  static int countResponsesUsed = 0;
 
   LocalResponseList();
 
@@ -100,7 +107,8 @@ class LocalResponseList {
     }
 
     double totalWeight = availableResponses.fold(0, (sum, item) {
-      double itemWeight = (item.blueThumb + 1) / (item.redThumb + 1);
+      double itemWeight = (3 * (item.blueThumb + 1) / (item.redThumb + 1)) /
+          item.repetitionScore;
       return sum + itemWeight;
     });
 
@@ -108,13 +116,23 @@ class LocalResponseList {
     double cumulativeWeight = 0;
 
     for (var response in availableResponses) {
-      double itemWeight = (response.blueThumb + 1) / (response.redThumb + 1);
+      double itemWeight =
+          (3 * (response.blueThumb + 1) / (response.redThumb + 1)) /
+              response.repetitionScore;
       cumulativeWeight += itemWeight;
 
       if (randomWeight <= cumulativeWeight) {
         recentlyUsedResponses.add(response);
         if (recentlyUsedResponses.length > maxRecentlyUsedResponses) {
           recentlyUsedResponses.removeAt(0);
+        }
+        response.increaseRepetitionScore();
+        countResponsesUsed++;
+        if (countResponsesUsed >= 5) {
+          for (var r in listResponse) {
+            r.decreaseRepetitionScore();
+          }
+          countResponsesUsed = 0;
         }
         if (kDebugMode) {
           print(response);

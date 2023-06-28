@@ -11,34 +11,34 @@ class DatabaseService {
 
   // data format : {responses: {id: {text: text, blue_thumb: blueThumb, red_thumb: redThumb}}, ...}
   // Fetches all the data from the database
-  Stream<List<Map<String, dynamic>>> getData() {
-    return _databaseReference.child('responses').onValue.map((event) {
-      final List<Map<String, dynamic>> data = [];
+  Future<List<Map<String, dynamic>>> getData() async {
+    final List<Map<String, dynamic>> data = [];
 
-      final Map<dynamic, dynamic>? responses =
-          event.snapshot.value as Map<dynamic, dynamic>?;
-      if (responses != null) {
-        responses.forEach((key, value) {
-          final Map<dynamic, dynamic>? responseMap =
-              value as Map<dynamic, dynamic>?;
+    final DatabaseEvent databaseEvent =
+        await _databaseReference.child('responses').once();
+    final Map<dynamic, dynamic>? responses =
+        databaseEvent.snapshot.value as Map<dynamic, dynamic>?;
+    if (responses != null) {
+      responses.forEach((key, value) {
+        final Map<dynamic, dynamic>? responseMap =
+            value as Map<dynamic, dynamic>?;
 
-          final String? text = responseMap?['text'] as String?;
-          final int? blueThumb = responseMap?['blue_thumb'] as int?;
-          final int? redThumb = responseMap?['red_thumb'] as int?;
+        final String? text = responseMap?['text'] as String?;
+        final int? blueThumb = responseMap?['blue_thumb'] as int?;
+        final int? redThumb = responseMap?['red_thumb'] as int?;
 
-          if (text != null && blueThumb != null && redThumb != null) {
-            data.add({
-              'id': key,
-              'text': text,
-              'blue_thumb': blueThumb,
-              'red_thumb': redThumb,
-            });
-          }
-        });
-      }
+        if (text != null && blueThumb != null && redThumb != null) {
+          data.add({
+            'id': key,
+            'text': text,
+            'blue_thumb': blueThumb,
+            'red_thumb': redThumb,
+          });
+        }
+      });
+    }
 
-      return data;
-    });
+    return data;
   }
 
   // add a new answer to the database, with its id, text, blue thumb and red thumb
