@@ -14,10 +14,17 @@ class History extends StatefulWidget {
   State<History> createState() => _HistoryState();
 }
 
+class QuestionResponse {
+  String question;
+  LocalResponse response;
+
+  QuestionResponse({required this.question, required this.response});
+}
+
 class _HistoryState extends State<History> {
   final _key = GlobalKey();
   final DatabaseService _databaseService = DatabaseService();
-  List<LocalResponse> selectedResponses = [];
+  List<QuestionResponse> questionResponses = [];
 
   @override
   Widget build(BuildContext context) {
@@ -39,67 +46,71 @@ class _HistoryState extends State<History> {
         final LocalResponseList localResponseList = LocalResponseList();
         localResponseList.addResponseListFromMap(responseList);
 
+        for (int i = 0; i < appState.questionsList.length; i++) {
+          if (questionResponses.length <= i) {
+            questionResponses.insert(
+                0,
+                QuestionResponse(
+                    question: appState.questionsList[0],
+                    response:
+                        localResponseList.getRandomResponseWithWeights()));
+          }
+        }
+
         return ListView.builder(
           reverse: true,
           itemCount: appState.questionsList.length,
           itemBuilder: (context, index) {
-            final question = appState.questionsList[index];
-            if (index >= selectedResponses.length) {
-              selectedResponses.insert(
-                  0, localResponseList.getRandomResponseWithWeights());
-            }
-            final randomResponse = selectedResponses[index];
-
             void likeResponse() {
               setState(() {
-                if (!selectedResponses[index].isLiked) {
-                  if (!selectedResponses[index].isDisliked) {
-                    selectedResponses[index].isLiked = true;
-                    _databaseService.vote(
-                        selectedResponses[index].id, "unvoted", "blue");
+                if (!questionResponses[index].response.isLiked) {
+                  if (!questionResponses[index].response.isDisliked) {
+                    questionResponses[index].response.isLiked = true;
+                    _databaseService.vote(questionResponses[index].response.id,
+                        "unvoted", "blue");
                   } else {
-                    selectedResponses[index].isLiked = true;
-                    selectedResponses[index].isDisliked = false;
+                    questionResponses[index].response.isLiked = true;
+                    questionResponses[index].response.isDisliked = false;
                     _databaseService.vote(
-                        selectedResponses[index].id, "red", "blue");
+                        questionResponses[index].response.id, "red", "blue");
                   }
                 } else {
-                  selectedResponses[index].isLiked = false;
+                  questionResponses[index].response.isLiked = false;
                   _databaseService.vote(
-                      selectedResponses[index].id, "blue", "unvoted");
+                      questionResponses[index].response.id, "blue", "unvoted");
                 }
               });
             }
 
             void dislikeResponse() {
               setState(() {
-                if (!selectedResponses[index].isDisliked) {
-                  if (!selectedResponses[index].isLiked) {
-                    selectedResponses[index].isDisliked = true;
+                if (!questionResponses[index].response.isDisliked) {
+                  if (!questionResponses[index].response.isLiked) {
+                    questionResponses[index].response.isDisliked = true;
                     _databaseService.vote(
-                        selectedResponses[index].id, "unvoted", "red");
+                        questionResponses[index].response.id, "unvoted", "red");
                   } else {
-                    selectedResponses[index].isDisliked = true;
-                    selectedResponses[index].isLiked = false;
+                    questionResponses[index].response.isDisliked = true;
+                    questionResponses[index].response.isLiked = false;
                     _databaseService.vote(
-                        selectedResponses[index].id, "blue", "red");
+                        questionResponses[index].response.id, "blue", "red");
                   }
                 } else {
-                  selectedResponses[index].isDisliked = false;
+                  questionResponses[index].response.isDisliked = false;
                   _databaseService.vote(
-                      selectedResponses[index].id, "red", "unvoted");
+                      questionResponses[index].response.id, "red", "unvoted");
                 }
               });
             }
 
             // * Thumb icons
             IconData myThumbUp;
-            myThumbUp = selectedResponses[index].isLiked
+            myThumbUp = questionResponses[index].response.isLiked
                 ? Icons.thumb_up
                 : Icons.thumb_up_outlined;
 
             IconData myThumbDown;
-            myThumbDown = selectedResponses[index].isDisliked
+            myThumbDown = questionResponses[index].response.isDisliked
                 ? Icons.thumb_down
                 : Icons.thumb_down_outlined;
 
@@ -113,7 +124,7 @@ class _HistoryState extends State<History> {
                       // space of the question container
                       padding: const EdgeInsets.all(10),
                       child: Text(
-                        question,
+                        questionResponses[index].question,
                         style: normalText,
                         textAlign: TextAlign.center,
                       ),
@@ -136,7 +147,7 @@ class _HistoryState extends State<History> {
                         children: [
                           // * Response
                           Text(
-                            randomResponse.text,
+                            questionResponses[index].response.text,
                             style: normalText,
                             textAlign: TextAlign.center,
                           ),
