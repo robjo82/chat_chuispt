@@ -29,9 +29,11 @@ class _HistoryState extends State<History> {
   late Future<LocalResponseList> localResponseListFuture;
 
   Future<LocalResponseList> initializeLocalResponseList() async {
-    final responseList = await _databaseService.getData();
+    final responseList = await _databaseService.getResponses();
     final LocalResponseList localResponseList = LocalResponseList();
     localResponseList.addResponseListFromMap(responseList);
+    final votes = await _databaseService.getVotes();
+    localResponseList.addVotesFromMap(votes);
     return localResponseList;
   }
 
@@ -54,7 +56,9 @@ class _HistoryState extends State<History> {
         }
 
         if (snapshot.hasError) {
-          return const Center(child: Text('An error has occurred'));
+          return const Center(
+              child: Text(
+                  'An error has occurred. Please be sure you are logged in.'));
         }
 
         final localResponseList = snapshot.data!;

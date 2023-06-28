@@ -89,6 +89,20 @@ class LocalResponseList {
     }
   }
 
+  void addVotesFromMap(Map<String, String> votes) {
+    for (var vote in votes.entries) {
+      for (var response in listResponse) {
+        if (response.id == vote.key) {
+          if (vote.value == "blue") {
+            response.isLiked = true;
+          } else if (vote.value == "red") {
+            response.isDisliked = true;
+          }
+        }
+      }
+    }
+  }
+
   LocalResponse getRandomResponseWithWeights() {
     if (listResponse.isEmpty) {
       throw Exception("La liste est vide, aucune réponse à renvoyer.");

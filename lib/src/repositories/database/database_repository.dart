@@ -11,7 +11,7 @@ class DatabaseService {
 
   // data format : {responses: {id: {text: text, blue_thumb: blueThumb, red_thumb: redThumb}}, ...}
   // Fetches all the data from the database
-  Future<List<Map<String, dynamic>>> getData() async {
+  Future<List<Map<String, dynamic>>> getResponses() async {
     final List<Map<String, dynamic>> data = [];
 
     final DatabaseEvent databaseEvent =
@@ -39,6 +39,32 @@ class DatabaseService {
     }
 
     return data;
+  }
+
+  Future<Map<String, String>> getVotes() async {
+    final Map<String, String> votes = {};
+
+    final LocalUser? user = await _userRepository.getUser();
+    if (user != null) {
+      final DatabaseEvent databaseEvent =
+          await _databaseReference.child('users').child(user.id).once();
+      final Map<dynamic, dynamic>? userMap =
+          databaseEvent.snapshot.value as Map<dynamic, dynamic>?;
+      if (userMap != null) {
+        final Map<dynamic, dynamic>? voteMap =
+            userMap['vote'] as Map<dynamic, dynamic>?;
+
+        if (voteMap != null) {
+          voteMap.forEach((key, value) {
+            votes[key] = value as String;
+          });
+        }
+      }
+    } else {
+      throw Exception('User is null');
+    }
+
+    return votes;
   }
 
   // add a new answer to the database, with its id, text, blue thumb and red thumb
