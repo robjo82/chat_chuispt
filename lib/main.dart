@@ -1,22 +1,22 @@
-import 'package:chat_chuispt/constants.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 
-import 'main page/main_page.dart';
-
+import 'src/screens/main_page/main_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (kDebugMode) {
     print("Firebase initializing...");
   }
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
-    runApp(MainApp());
+    runApp(const MainApp());
   } catch (e) {
     if (kDebugMode) {
       print(e);

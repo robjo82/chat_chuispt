@@ -53,11 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCGPdadzqssGTDxcVR5VTSox_jzhKeZkIg',
-    appId: '1:363041976766:android:1fbc51100b4ad0a1cbc9ef',
-    messagingSenderId: '363041976766',
-    projectId: 'chat-chuispt',
-    databaseURL: 'https://chat-chuispt-default-rtdb.europe-west1.firebasedatabase.app',
-    storageBucket: 'chat-chuispt.appspot.com',
+    apiKey: 'AIzaSyBnmy2lnGsUDJFuqIGlgOc1sB9X8QduC0o',
+    appId: '1:602018350042:android:0d1c3fc1f630cc1aebf6e3',
+    messagingSenderId: '602018350042',
+    projectId: 'chatchuispt',
+    databaseURL: 'https://chatchuispt-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'chatchuispt.appspot.com',
   );
 }

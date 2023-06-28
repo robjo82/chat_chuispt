@@ -1,6 +1,6 @@
 {
-    "name": "chat_chuispt",
-    "short_name": "chat_chuispt",
+    "name": "chatchuispt",
+    "short_name": "chatchuispt",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

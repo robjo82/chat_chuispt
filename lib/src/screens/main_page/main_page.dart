@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../constants.dart';
-import '../main.dart';
+import 'package:chat_chuispt/assets/constants/constants.dart';
+import 'package:chat_chuispt/main.dart';
 
 import 'components/history.dart';
 import 'components/questions_grid.dart';
@@ -55,14 +55,14 @@ class _MainPageState extends State<MainPage> {
                           const SizedBox(height: 25),
                           Text('Exemples de questions...', style: titleText2),
                           const SizedBox(height: 5),
-                          Expanded(child: QuestionGrid()),
+                          const Expanded(child: QuestionGrid()),
                         ],
                       ),
                     )
                   : Container(
                       // ! si la liste de questions n'est pas vide
                       color: themeApp.colorScheme.background,
-                      child: const Expanded(child: History()),
+                      child: const History(),
                     ),
             ),
             textField
