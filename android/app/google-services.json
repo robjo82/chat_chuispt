@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "602018350042-32gbagheh5g0muh68q8b0532mm0sapk3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chatchuispt.chatchuispt",
+            "certificate_hash": "747f9e9c4de48fef6ea7046277f3c6b5e4d38a3e"
+          }
+        },
+        {
           "client_id": "602018350042-jlh03roviih8pscsufl0hd6scr1l5uc2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -49,7 +57,62 @@
             },
             {
               "client_id": "602018350042-4qodvl3s7dmcopd9h9ditgiucnbbtda2.apps.googleusercontent.com",
-              "client_type": 2
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatchuispt.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602018350042:android:0d1c3fc1f630cc1aebf6e3",
+        "android_client_info": {
+          "package_name": "com.example.chatchuispt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602018350042-f3ncsme75249briageunktecju7540oe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatchuispt",
+            "certificate_hash": "97055ec6ff93d8ac7aaa71b8010ceb92e12966a8"
+          }
+        },
+        {
+          "client_id": "602018350042-h21pfsi9s8nvehiftldmss5jg14itgrr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatchuispt",
+            "certificate_hash": "0a0bea814ce6265d23bc35bcf77084568b3f6ad1"
+          }
+        },
+        {
+          "client_id": "602018350042-2de3nrgp3u9bj0pk2ac065ofeh0v3f02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnmy2lnGsUDJFuqIGlgOc1sB9X8QduC0o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602018350042-2de3nrgp3u9bj0pk2ac065ofeh0v3f02.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "602018350042-4qodvl3s7dmcopd9h9ditgiucnbbtda2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatchuispt.RunnerTests"
+              }
             }
           ]
         }
