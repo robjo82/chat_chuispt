@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBnmy2lnGsUDJFuqIGlgOc1sB9X8QduC0o',
-    appId: '1:602018350042:android:0d1c3fc1f630cc1aebf6e3',
+    appId: '1:602018350042:android:a61580ab28077c6aebf6e3',
     messagingSenderId: '602018350042',
     projectId: 'chatchuispt',
     databaseURL: 'https://chatchuispt-default-rtdb.europe-west1.firebasedatabase.app',
